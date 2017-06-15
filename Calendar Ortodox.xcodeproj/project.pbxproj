@@ -1,0 +1,750 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		818BAFC51EEC7963004486DE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818BAFC41EEC7963004486DE /* AppDelegate.swift */; };
+		818BAFC71EEC7963004486DE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818BAFC61EEC7963004486DE /* ViewController.swift */; };
+		818BAFCD1EEC7963004486DE /* Calendar_Ortodox.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 818BAFCB1EEC7963004486DE /* Calendar_Ortodox.xcdatamodeld */; };
+		818BAFCF1EEC7963004486DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 818BAFCE1EEC7963004486DE /* Assets.xcassets */; };
+		818BAFD21EEC7963004486DE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 818BAFD01EEC7963004486DE /* LaunchScreen.storyboard */; };
+		818BAFDD1EEC7963004486DE /* Calendar_OrtodoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818BAFDC1EEC7963004486DE /* Calendar_OrtodoxTests.swift */; };
+		818BAFE81EEC7963004486DE /* Calendar_OrtodoxUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818BAFE71EEC7963004486DE /* Calendar_OrtodoxUITests.swift */; };
+		818BAFF81EEC9A17004486DE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 818BAFF71EEC9A17004486DE /* Main.storyboard */; };
+		818BAFFE1EEC9AFD004486DE /* import_test.csv in Resources */ = {isa = PBXBuildFile; fileRef = 818BAFFD1EEC9AFD004486DE /* import_test.csv */; };
+		818BB0001EEC9B0F004486DE /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818BAFFF1EEC9B0F004486DE /* CustomCell.swift */; };
+		818BB0021EEC9B1E004486DE /* Holiday.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818BB0011EEC9B1E004486DE /* Holiday.swift */; };
+		A15A665EDBE8FD24D6586D3F /* Pods_Calendar_Ortodox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6769E2FA4CA8BADD2B46E640 /* Pods_Calendar_Ortodox.framework */; };
+		CAD3A82C1B31FE4C29575EBA /* Pods_Calendar_OrtodoxTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A85CE057AA1B47535A88399E /* Pods_Calendar_OrtodoxTests.framework */; };
+		EC61F2793F23B00104D3E974 /* Pods_Calendar_OrtodoxUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62D54A7CD4FB82218A0D051F /* Pods_Calendar_OrtodoxUITests.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		818BAFD91EEC7963004486DE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 818BAFB91EEC7963004486DE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 818BAFC01EEC7963004486DE;
+			remoteInfo = "Calendar Ortodox";
+		};
+		818BAFE41EEC7963004486DE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 818BAFB91EEC7963004486DE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 818BAFC01EEC7963004486DE;
+			remoteInfo = "Calendar Ortodox";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0CC5081684BDE93D6857C211 /* Pods-Calendar OrtodoxTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Calendar OrtodoxTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Calendar OrtodoxTests/Pods-Calendar OrtodoxTests.release.xcconfig"; sourceTree = "<group>"; };
+		31FB92D794AA5BDC2E15E7DD /* Pods-Calendar Ortodox.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Calendar Ortodox.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Calendar Ortodox/Pods-Calendar Ortodox.debug.xcconfig"; sourceTree = "<group>"; };
+		62D54A7CD4FB82218A0D051F /* Pods_Calendar_OrtodoxUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Calendar_OrtodoxUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6769E2FA4CA8BADD2B46E640 /* Pods_Calendar_Ortodox.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Calendar_Ortodox.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		818BAFC11EEC7963004486DE /* Calendar Ortodox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Calendar Ortodox.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		818BAFC41EEC7963004486DE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		818BAFC61EEC7963004486DE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		818BAFCC1EEC7963004486DE /* Calendar_Ortodox.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Calendar_Ortodox.xcdatamodel; sourceTree = "<group>"; };
+		818BAFCE1EEC7963004486DE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		818BAFD11EEC7963004486DE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		818BAFD31EEC7963004486DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		818BAFD81EEC7963004486DE /* Calendar OrtodoxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Calendar OrtodoxTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		818BAFDC1EEC7963004486DE /* Calendar_OrtodoxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar_OrtodoxTests.swift; sourceTree = "<group>"; };
+		818BAFDE1EEC7963004486DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		818BAFE31EEC7963004486DE /* Calendar OrtodoxUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Calendar OrtodoxUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		818BAFE71EEC7963004486DE /* Calendar_OrtodoxUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar_OrtodoxUITests.swift; sourceTree = "<group>"; };
+		818BAFE91EEC7963004486DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		818BAFF71EEC9A17004486DE /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		818BAFFD1EEC9AFD004486DE /* import_test.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = import_test.csv; sourceTree = "<group>"; };
+		818BAFFF1EEC9B0F004486DE /* CustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
+		818BB0011EEC9B1E004486DE /* Holiday.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Holiday.swift; sourceTree = "<group>"; };
+		87249C2F53C614BCEA3672FB /* Pods-Calendar Ortodox.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Calendar Ortodox.release.xcconfig"; path = "Pods/Target Support Files/Pods-Calendar Ortodox/Pods-Calendar Ortodox.release.xcconfig"; sourceTree = "<group>"; };
+		A85CE057AA1B47535A88399E /* Pods_Calendar_OrtodoxTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Calendar_OrtodoxTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA659B129F0051D946FDCE96 /* Pods-Calendar OrtodoxUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Calendar OrtodoxUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Calendar OrtodoxUITests/Pods-Calendar OrtodoxUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		AD0811A775619A7CB3051AE7 /* Pods-Calendar OrtodoxUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Calendar OrtodoxUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Calendar OrtodoxUITests/Pods-Calendar OrtodoxUITests.release.xcconfig"; sourceTree = "<group>"; };
+		CB7BA1B537ED888ECBBD9B6A /* Pods-Calendar OrtodoxTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Calendar OrtodoxTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Calendar OrtodoxTests/Pods-Calendar OrtodoxTests.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		818BAFBE1EEC7963004486DE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A15A665EDBE8FD24D6586D3F /* Pods_Calendar_Ortodox.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		818BAFD51EEC7963004486DE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CAD3A82C1B31FE4C29575EBA /* Pods_Calendar_OrtodoxTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		818BAFE01EEC7963004486DE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC61F2793F23B00104D3E974 /* Pods_Calendar_OrtodoxUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		10DF56C965954F1493625419 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6769E2FA4CA8BADD2B46E640 /* Pods_Calendar_Ortodox.framework */,
+				A85CE057AA1B47535A88399E /* Pods_Calendar_OrtodoxTests.framework */,
+				62D54A7CD4FB82218A0D051F /* Pods_Calendar_OrtodoxUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		818BAFB81EEC7963004486DE = {
+			isa = PBXGroup;
+			children = (
+				818BAFC31EEC7963004486DE /* Calendar Ortodox */,
+				818BAFDB1EEC7963004486DE /* Calendar OrtodoxTests */,
+				818BAFE61EEC7963004486DE /* Calendar OrtodoxUITests */,
+				818BAFC21EEC7963004486DE /* Products */,
+				ABE1F94C1D752BC6F5F85F2F /* Pods */,
+				10DF56C965954F1493625419 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		818BAFC21EEC7963004486DE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				818BAFC11EEC7963004486DE /* Calendar Ortodox.app */,
+				818BAFD81EEC7963004486DE /* Calendar OrtodoxTests.xctest */,
+				818BAFE31EEC7963004486DE /* Calendar OrtodoxUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		818BAFC31EEC7963004486DE /* Calendar Ortodox */ = {
+			isa = PBXGroup;
+			children = (
+				818BAFC41EEC7963004486DE /* AppDelegate.swift */,
+				818BAFC61EEC7963004486DE /* ViewController.swift */,
+				818BAFF71EEC9A17004486DE /* Main.storyboard */,
+				818BAFCE1EEC7963004486DE /* Assets.xcassets */,
+				818BAFD01EEC7963004486DE /* LaunchScreen.storyboard */,
+				818BAFFF1EEC9B0F004486DE /* CustomCell.swift */,
+				818BAFD31EEC7963004486DE /* Info.plist */,
+				818BAFCB1EEC7963004486DE /* Calendar_Ortodox.xcdatamodeld */,
+				818BAFFD1EEC9AFD004486DE /* import_test.csv */,
+				818BB0011EEC9B1E004486DE /* Holiday.swift */,
+			);
+			path = "Calendar Ortodox";
+			sourceTree = "<group>";
+		};
+		818BAFDB1EEC7963004486DE /* Calendar OrtodoxTests */ = {
+			isa = PBXGroup;
+			children = (
+				818BAFDC1EEC7963004486DE /* Calendar_OrtodoxTests.swift */,
+				818BAFDE1EEC7963004486DE /* Info.plist */,
+			);
+			path = "Calendar OrtodoxTests";
+			sourceTree = "<group>";
+		};
+		818BAFE61EEC7963004486DE /* Calendar OrtodoxUITests */ = {
+			isa = PBXGroup;
+			children = (
+				818BAFE71EEC7963004486DE /* Calendar_OrtodoxUITests.swift */,
+				818BAFE91EEC7963004486DE /* Info.plist */,
+			);
+			path = "Calendar OrtodoxUITests";
+			sourceTree = "<group>";
+		};
+		ABE1F94C1D752BC6F5F85F2F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				31FB92D794AA5BDC2E15E7DD /* Pods-Calendar Ortodox.debug.xcconfig */,
+				87249C2F53C614BCEA3672FB /* Pods-Calendar Ortodox.release.xcconfig */,
+				CB7BA1B537ED888ECBBD9B6A /* Pods-Calendar OrtodoxTests.debug.xcconfig */,
+				0CC5081684BDE93D6857C211 /* Pods-Calendar OrtodoxTests.release.xcconfig */,
+				AA659B129F0051D946FDCE96 /* Pods-Calendar OrtodoxUITests.debug.xcconfig */,
+				AD0811A775619A7CB3051AE7 /* Pods-Calendar OrtodoxUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		818BAFC01EEC7963004486DE /* Calendar Ortodox */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 818BAFEC1EEC7963004486DE /* Build configuration list for PBXNativeTarget "Calendar Ortodox" */;
+			buildPhases = (
+				7EBFE6C98BA590F95D31F268 /* [CP] Check Pods Manifest.lock */,
+				818BAFBD1EEC7963004486DE /* Sources */,
+				818BAFBE1EEC7963004486DE /* Frameworks */,
+				818BAFBF1EEC7963004486DE /* Resources */,
+				D360D657696ECA8387B031A9 /* [CP] Embed Pods Frameworks */,
+				8D0B5B4A996293695F6D0D53 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Calendar Ortodox";
+			productName = "Calendar Ortodox";
+			productReference = 818BAFC11EEC7963004486DE /* Calendar Ortodox.app */;
+			productType = "com.apple.product-type.application";
+		};
+		818BAFD71EEC7963004486DE /* Calendar OrtodoxTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 818BAFEF1EEC7963004486DE /* Build configuration list for PBXNativeTarget "Calendar OrtodoxTests" */;
+			buildPhases = (
+				4D56EC17ABD2F5CD73F00286 /* [CP] Check Pods Manifest.lock */,
+				818BAFD41EEC7963004486DE /* Sources */,
+				818BAFD51EEC7963004486DE /* Frameworks */,
+				818BAFD61EEC7963004486DE /* Resources */,
+				CE44F38725F4EFF13E655131 /* [CP] Embed Pods Frameworks */,
+				FAE8DE0238D453732C7889BE /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				818BAFDA1EEC7963004486DE /* PBXTargetDependency */,
+			);
+			name = "Calendar OrtodoxTests";
+			productName = "Calendar OrtodoxTests";
+			productReference = 818BAFD81EEC7963004486DE /* Calendar OrtodoxTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		818BAFE21EEC7963004486DE /* Calendar OrtodoxUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 818BAFF21EEC7963004486DE /* Build configuration list for PBXNativeTarget "Calendar OrtodoxUITests" */;
+			buildPhases = (
+				67C011EB2C0778370A4295BC /* [CP] Check Pods Manifest.lock */,
+				818BAFDF1EEC7963004486DE /* Sources */,
+				818BAFE01EEC7963004486DE /* Frameworks */,
+				818BAFE11EEC7963004486DE /* Resources */,
+				0BC2BCC4E02167547085CDF5 /* [CP] Embed Pods Frameworks */,
+				951A155AAB75FB5D6E3F023A /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				818BAFE51EEC7963004486DE /* PBXTargetDependency */,
+			);
+			name = "Calendar OrtodoxUITests";
+			productName = "Calendar OrtodoxUITests";
+			productReference = 818BAFE31EEC7963004486DE /* Calendar OrtodoxUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		818BAFB91EEC7963004486DE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0830;
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = MPBro;
+				TargetAttributes = {
+					818BAFC01EEC7963004486DE = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = T3M8N6G4F5;
+						ProvisioningStyle = Automatic;
+					};
+					818BAFD71EEC7963004486DE = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 818BAFC01EEC7963004486DE;
+					};
+					818BAFE21EEC7963004486DE = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 818BAFC01EEC7963004486DE;
+					};
+				};
+			};
+			buildConfigurationList = 818BAFBC1EEC7963004486DE /* Build configuration list for PBXProject "Calendar Ortodox" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 818BAFB81EEC7963004486DE;
+			productRefGroup = 818BAFC21EEC7963004486DE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				818BAFC01EEC7963004486DE /* Calendar Ortodox */,
+				818BAFD71EEC7963004486DE /* Calendar OrtodoxTests */,
+				818BAFE21EEC7963004486DE /* Calendar OrtodoxUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		818BAFBF1EEC7963004486DE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				818BAFF81EEC9A17004486DE /* Main.storyboard in Resources */,
+				818BAFD21EEC7963004486DE /* LaunchScreen.storyboard in Resources */,
+				818BAFCF1EEC7963004486DE /* Assets.xcassets in Resources */,
+				818BAFFE1EEC9AFD004486DE /* import_test.csv in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		818BAFD61EEC7963004486DE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		818BAFE11EEC7963004486DE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0BC2BCC4E02167547085CDF5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Calendar OrtodoxUITests/Pods-Calendar OrtodoxUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4D56EC17ABD2F5CD73F00286 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		67C011EB2C0778370A4295BC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		7EBFE6C98BA590F95D31F268 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		8D0B5B4A996293695F6D0D53 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Calendar Ortodox/Pods-Calendar Ortodox-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		951A155AAB75FB5D6E3F023A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Calendar OrtodoxUITests/Pods-Calendar OrtodoxUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CE44F38725F4EFF13E655131 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Calendar OrtodoxTests/Pods-Calendar OrtodoxTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D360D657696ECA8387B031A9 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Calendar Ortodox/Pods-Calendar Ortodox-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FAE8DE0238D453732C7889BE /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Calendar OrtodoxTests/Pods-Calendar OrtodoxTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		818BAFBD1EEC7963004486DE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				818BAFC71EEC7963004486DE /* ViewController.swift in Sources */,
+				818BB0021EEC9B1E004486DE /* Holiday.swift in Sources */,
+				818BAFCD1EEC7963004486DE /* Calendar_Ortodox.xcdatamodeld in Sources */,
+				818BB0001EEC9B0F004486DE /* CustomCell.swift in Sources */,
+				818BAFC51EEC7963004486DE /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		818BAFD41EEC7963004486DE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				818BAFDD1EEC7963004486DE /* Calendar_OrtodoxTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		818BAFDF1EEC7963004486DE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				818BAFE81EEC7963004486DE /* Calendar_OrtodoxUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		818BAFDA1EEC7963004486DE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 818BAFC01EEC7963004486DE /* Calendar Ortodox */;
+			targetProxy = 818BAFD91EEC7963004486DE /* PBXContainerItemProxy */;
+		};
+		818BAFE51EEC7963004486DE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 818BAFC01EEC7963004486DE /* Calendar Ortodox */;
+			targetProxy = 818BAFE41EEC7963004486DE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		818BAFD01EEC7963004486DE /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				818BAFD11EEC7963004486DE /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		818BAFEA1EEC7963004486DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		818BAFEB1EEC7963004486DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		818BAFED1EEC7963004486DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 31FB92D794AA5BDC2E15E7DD /* Pods-Calendar Ortodox.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = T3M8N6G4F5;
+				INFOPLIST_FILE = "Calendar Ortodox/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ttt.Calendar-Ortodox";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		818BAFEE1EEC7963004486DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 87249C2F53C614BCEA3672FB /* Pods-Calendar Ortodox.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = T3M8N6G4F5;
+				INFOPLIST_FILE = "Calendar Ortodox/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ttt.Calendar-Ortodox";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		818BAFF01EEC7963004486DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB7BA1B537ED888ECBBD9B6A /* Pods-Calendar OrtodoxTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = "Calendar OrtodoxTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ttt.Calendar-OrtodoxTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Calendar Ortodox.app/Calendar Ortodox";
+			};
+			name = Debug;
+		};
+		818BAFF11EEC7963004486DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0CC5081684BDE93D6857C211 /* Pods-Calendar OrtodoxTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = "Calendar OrtodoxTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ttt.Calendar-OrtodoxTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Calendar Ortodox.app/Calendar Ortodox";
+			};
+			name = Release;
+		};
+		818BAFF31EEC7963004486DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AA659B129F0051D946FDCE96 /* Pods-Calendar OrtodoxUITests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				INFOPLIST_FILE = "Calendar OrtodoxUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ttt.Calendar-OrtodoxUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = "Calendar Ortodox";
+			};
+			name = Debug;
+		};
+		818BAFF41EEC7963004486DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AD0811A775619A7CB3051AE7 /* Pods-Calendar OrtodoxUITests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				INFOPLIST_FILE = "Calendar OrtodoxUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ttt.Calendar-OrtodoxUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = "Calendar Ortodox";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		818BAFBC1EEC7963004486DE /* Build configuration list for PBXProject "Calendar Ortodox" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				818BAFEA1EEC7963004486DE /* Debug */,
+				818BAFEB1EEC7963004486DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		818BAFEC1EEC7963004486DE /* Build configuration list for PBXNativeTarget "Calendar Ortodox" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				818BAFED1EEC7963004486DE /* Debug */,
+				818BAFEE1EEC7963004486DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		818BAFEF1EEC7963004486DE /* Build configuration list for PBXNativeTarget "Calendar OrtodoxTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				818BAFF01EEC7963004486DE /* Debug */,
+				818BAFF11EEC7963004486DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		818BAFF21EEC7963004486DE /* Build configuration list for PBXNativeTarget "Calendar OrtodoxUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				818BAFF31EEC7963004486DE /* Debug */,
+				818BAFF41EEC7963004486DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		818BAFCB1EEC7963004486DE /* Calendar_Ortodox.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				818BAFCC1EEC7963004486DE /* Calendar_Ortodox.xcdatamodel */,
+			);
+			currentVersion = 818BAFCC1EEC7963004486DE /* Calendar_Ortodox.xcdatamodel */;
+			path = Calendar_Ortodox.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 818BAFB91EEC7963004486DE /* Project object */;
+}

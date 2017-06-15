@@ -1,0 +1,6 @@
+framework module Pods_Calendar_Ortodox {
+  umbrella header "Pods-Calendar Ortodox-umbrella.h"
+
+  export *
+  module * { export * }
+}
