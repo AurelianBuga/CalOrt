@@ -70,6 +70,11 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if sections[indexPath.section].expanded {
             var height:CGFloat = calculateHeight(inString: sections[indexPath.section].holidays[indexPath.row].holiday)
+            
+            //fix for some holidays with fewer words
+            if height < 20.0 {
+                height += 22.0
+            }
             return height
         } else {
             return 0
