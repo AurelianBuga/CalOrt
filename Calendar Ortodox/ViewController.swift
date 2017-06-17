@@ -25,41 +25,10 @@ class ViewController: UIViewController {
     let currentMonthColor = UIColor.black
     let outsideMonthColor = UIColor(colorWithHexValue: 0xd8d8d8)
     
-    let testList = ["element1" , "element2"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         SetupCalendarView()
-        
-        //TEST STORED DATA IN CORE DATA
-        /*let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        
-        let context = appDelegate.persistentContainer.viewContext
-        
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Holidays")
-        
-        request.returnsObjectsAsFaults = false
-        
-        do {
-            let results = try context.fetch(request)
-            
-            if results.count > 0 {
-                for result in results as! [NSManagedObject] {
-                    if let date = result.value(forKey: "date") as? String
-                    {
-                        print(date)
-                    }
-                    if let holiday = result.value(forKey: "holiday") as? String
-                    {
-                        print(holiday + "\n")
-                    }
-                }
-            }
-        }catch {
-            
-        }*/
-        
-        //END TEST
     }
     
     func SetupCalendarView() {
@@ -169,7 +138,16 @@ class ViewController: UIViewController {
     func DisplayHoliday(date: Date) {
         let dateString = ConvertDateToString(date: date)
         let holidayString = GetHolidayStringByDateString(dateString: dateString!)
-        DisplayHolidayText(holidayString: holidayString)
+        var attributedStringHoliday =  GenerateAttributedStringHoliday(holidayString: holidayString)
+        HolidayLabel.attributedText = attributedStringHoliday
+        
+        var addInfoString = ExtractAddInfoHoliday(holidayString: holidayString)
+        
+        if addInfoString != "" {
+            AddInfoLabel.text = addInfoString
+        } else {
+            AddInfoLabel.text = ""
+        }
     }
     
     func SetupViewsOfCalendar(from visibleDates: DateSegmentInfo) {
@@ -214,8 +192,26 @@ class ViewController: UIViewController {
         return holidayString
     }
     
+    func ExtractAddInfoHoliday(holidayString: String) -> String {
+        //extract additional info : (Harţi) , (Post negru) , (Dezlegare la ulei şi vin) , (Post) , (Dezlegare la ouă, lapte şi brânză) , (Dezlegare la peste) , (Zi aliturgică) (Numai seara, pâine şi apă) ,
+        var addInfoList:[String] = ["(Harţi)" , "(Post negru)" , "(Dezlegare la ulei şi vin)" , "(Post)" , "(Dezlegare la ouă, lapte şi brânză)" , "(Dezlegare la peste)" , "(Dezlegare la peşte)" , "(Zi aliturgică)" , "(Numai seara, pâine şi apă)"]
+        var addInfoString:String = ""
+        
+        for addInfo in addInfoList {
+            if holidayString.contains(addInfo) {
+                var addInfoWithoutBrakets = addInfo
+                addInfoWithoutBrakets.remove(at: addInfoWithoutBrakets.startIndex)
+                addInfoWithoutBrakets.remove(at: addInfoWithoutBrakets.index(before: addInfoWithoutBrakets.endIndex))
+                
+                addInfoString += "• " + addInfoWithoutBrakets + "\n"
+            }
+        }
+        
+        return addInfoString
+    }
     
-    func DisplayHolidayText(holidayString: String) {
+    
+    func GenerateAttributedStringHoliday(holidayString: String ) -> NSMutableAttributedString {
         //parse custom tags
         var myMutableString = NSMutableAttributedString()
         
@@ -229,26 +225,6 @@ class ViewController: UIViewController {
         if holidayString.range(of: "<br>") != nil {
             let tmpString = holidayString.replacingOccurrences(of: "<br>", with: "\n")
             holidayStringWithoutBr = tmpString
-        }
-        
-        //extract additional info : (Harţi) , (Post negru) , (Dezlegare la ulei şi vin) , (Post) , (Dezlegare la ouă, lapte şi brânză) , (Dezlegare la peste) , (Zi aliturgică) (Numai seara, pâine şi apă) ,
-        var addInfoList:[String] = ["(Harţi)" , "(Post negru)" , "(Dezlegare la ulei şi vin)" , "(Post)" , "(Dezlegare la ouă, lapte şi brânză)" , "(Dezlegare la peste)" , "(Dezlegare la peşte)" , "(Zi aliturgică)" , "(Numai seara, pâine şi apă)"]
-        var addInfoString:String = ""
-        
-        for addInfo in addInfoList {
-            if holidayStringWithoutBr.contains(addInfo) {
-                var addInfoWithoutBrakets = addInfo
-                addInfoWithoutBrakets.remove(at: addInfoWithoutBrakets.startIndex)
-                addInfoWithoutBrakets.remove(at: addInfoWithoutBrakets.index(before: addInfoWithoutBrakets.endIndex))
-                
-                addInfoString += "• " + addInfoWithoutBrakets + "\n"
-            }
-        }
-        
-        if addInfoString != "" {
-            AddInfoLabel.text = addInfoString
-        } else {
-            AddInfoLabel.text = ""
         }
         
         
@@ -496,12 +472,18 @@ class ViewController: UIViewController {
         
         //myMutableString.addAttribute(NSFontAttributeName , value: UIFont.systemFont(ofSize: 14.0) , range: holidayStringWithoutTags.nsRange(from: range))
         
-        //add bold to letter day
-        var endIndex = holidayStringWithoutTags.index(holidayStringWithoutTags.startIndex , offsetBy: 1)
-        var range = holidayStringWithoutTags.startIndex..<endIndex
-        myMutableString.addAttribute(NSFontAttributeName , value: UIFont.boldSystemFont(ofSize: 18.0) , range: holidayStringWithoutTags.nsRange(from: range))
+        //add bold to letter days
+        var startIndex = holidayStringWithoutTags.range(of: " ")?.lowerBound
+        var endIndex = holidayStringWithoutTags.index(holidayStringWithoutTags.startIndex , offsetBy: 4)
+        var range = startIndex!..<endIndex
+        myMutableString.addAttribute(NSFontAttributeName , value: UIFont.boldSystemFont(ofSize: 15.0) , range: holidayStringWithoutTags.nsRange(from: range))
         
-        HolidayLabel.attributedText = myMutableString
+        
+        //make day number bigger
+        range = holidayStringWithoutTags.startIndex..<startIndex!
+        myMutableString.addAttribute(NSFontAttributeName , value: UIFont.systemFont(ofSize: 20.0) , range: holidayStringWithoutTags.nsRange(from: range))
+        
+        return myMutableString
     }
     
     func ConvertDateToString(date: Date) -> String? {
@@ -510,6 +492,11 @@ class ViewController: UIViewController {
         let day = String(Calendar.current.component(.day, from: date))
         
         return year + " " + month + " " + day
+    }
+    
+    
+    @IBAction func GoToCurrentDate(_ sender: Any) {
+        setCurrentDate(date: Date())
     }
     
 }
