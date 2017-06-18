@@ -30,4 +30,8 @@ struct HolidayStr {
         self.holiday = holiday
         self.date = date
     }
+    
+    init() {
+        
+    }
 }

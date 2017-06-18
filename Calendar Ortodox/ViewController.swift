@@ -9,6 +9,7 @@
 import UIKit
 import JTAppleCalendar
 import CoreData
+import UserNotifications
 
 class ViewController: UIViewController {
     
@@ -25,10 +26,29 @@ class ViewController: UIViewController {
     let currentMonthColor = UIColor.black
     let outsideMonthColor = UIColor(colorWithHexValue: 0xd8d8d8)
     
+    var selectedHoliday:HolidayStr?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         SetupCalendarView()
+        
+        // Configure User Notification Center
+        UNUserNotificationCenter.current().delegate = self
+        selectedHoliday = HolidayStr()
+    }
+    
+    @objc public func selectorTest(notification:Notification) {
+        print(".....")
+    }
+    
+    
+    func setSelectedDate(date: Date) {
+        self.selectedHoliday?.date = date
+    }
+    
+    func setSelectedHoliday(holiday: String) {
+        self.selectedHoliday?.holiday = holiday
     }
     
     func SetupCalendarView() {
@@ -140,6 +160,8 @@ class ViewController: UIViewController {
         let holidayString = GetHolidayStringByDateString(dateString: dateString!)
         var attributedStringHoliday =  GenerateAttributedStringHoliday(holidayString: holidayString)
         HolidayLabel.attributedText = attributedStringHoliday
+        
+        setSelectedHoliday(holiday: attributedStringHoliday.string)
         
         var addInfoString = ExtractAddInfoHoliday(holidayString: holidayString)
         
@@ -499,6 +521,92 @@ class ViewController: UIViewController {
         setCurrentDate(date: Date())
     }
     
+    
+    @IBAction func SetNotificationButtonClick(_ sender: Any) {
+        var date = (selectedHoliday?.date)!
+        SetNotification(date: date)
+    }
+    
+    
+    private func requestAuthorization(completionHandler: @escaping (_ success: Bool) -> ()) {
+        // Request Authorization
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (success, error) in
+            if let error = error {
+                print("Request Authorization Failed (\(error), \(error.localizedDescription))")
+            }
+            
+            completionHandler(success)
+        }
+    }
+    
+    func SetNotification(date: Date) {
+        UNUserNotificationCenter.current().getNotificationSettings { (notificationSettings) in
+            switch notificationSettings.authorizationStatus {
+            case .notDetermined:
+                self.requestAuthorization(completionHandler: { (success) in
+                    guard success else { return }
+                    
+                    // Schedule Local Notification
+                    self.scheduleNotification(at: Date()) //test
+                })
+            case .authorized:
+                // Schedule Local Notification
+                self.scheduleNotification(at: Date()) //test
+            case .denied:
+                print("Application Not Allowed to Display Notifications")
+            }
+        }
+    }
+    
+    func scheduleNotification(at date: Date) {
+        let calendar = Calendar(identifier: .gregorian)
+        var components = calendar.dateComponents(in: .current, from: date)
+        let newComponents = DateComponents(calendar: calendar, timeZone: .current, month: components.month, day: components.day, hour: components.hour, minute: components.minute! + 1)
+        
+        let trigger = UNCalendarNotificationTrigger(dateMatching: newComponents, repeats: false)
+        
+        let content = UNMutableNotificationContent()
+        content.title = "Notificare"
+        content.body = (selectedHoliday?.holiday)!
+        content.badge = UIApplication.shared.applicationIconBadgeNumber + 1 as NSNumber
+        content.sound = UNNotificationSound.default()
+        
+        formatter.dateFormat = "yyyy MM dd"
+        
+        let request = UNNotificationRequest(identifier: "holiday_" + formatter.string(from: (selectedHoliday?.date)!), content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request) {(error) in
+            if let error = error {
+                print("Uh oh! We had an error: \(error)")
+            }
+        }
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        if response.actionIdentifier == "com.apple.UNNotificationDefaultActionIdentifier" {
+            
+            if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ViewController") as? ViewController {
+                if let navigator = navigationController {
+                    navigator.pushViewController(viewController, animated: true)
+                }
+                
+                let currentCountStr = UIApplication.shared.applicationIconBadgeNumber.description
+                let currentCount = Int(currentCountStr)
+                
+                if(currentCount! > 0) {
+                    UIApplication.shared.applicationIconBadgeNumber = 0
+                }
+            }
+        }
+    }
+}
+
+extension ViewController: UNUserNotificationCenterDelegate {
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert])
+    }
+    
 }
 
 extension ViewController: JTAppleCalendarViewDataSource {
@@ -529,6 +637,8 @@ extension ViewController: JTAppleCalendarViewDelegate {
     func calendar(_ calendar: JTAppleCalendarView, didSelectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
         handleCellSelected(view: cell, cellState: cellState)
         handleCellTextColor(view: cell, cellState: cellState)
+        
+        setSelectedDate(date: date)
         
         DisplayHoliday(date: cellState.date)
         

@@ -75,6 +75,11 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
             if height < 20.0 {
                 height += 22.0
             }
+            
+            //fix for some holidays with many words
+            if height > 140.0 {
+                height = height - 15
+            }
             return height
         } else {
             return 0
@@ -167,5 +172,32 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
         var indexPath = IndexPath(row: currentDay, section: currentMonth - 1)
         tableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableViewScrollPosition.middle)
     }
+    
+    
+    @IBAction func SetNotification(_ sender: Any) {
+        //get date
+        if let indexPath = tableView.indexPathForSelectedRow {
+            var date = sections[indexPath.section].holidays[indexPath.row].date
+            viewController.selectedHoliday = HolidayStr()
+            viewController.setSelectedHoliday(holiday: sections[indexPath.section].holidays[indexPath.row].holiday)
+            viewController.setSelectedDate(date: sections[indexPath.section].holidays[indexPath.row].date)
+            viewController.SetNotification(date: date!)
+        } else {
+            //alert user that a selection is needed
+            createAlert(title: "Alertă" , message: "Pentru a putea seta o notificare este necesar să selectati o zi.")
+        }
+    }
+    
+    func createAlert(title: String , message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (action) in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    
 
 }
