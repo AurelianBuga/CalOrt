@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -136,17 +137,23 @@
                                 <rect key="frame" x="0.0" y="397.5" width="375" height="220.5"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ysV-HL-SuY">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="300"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="250"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" restorationIdentifier="HolidayLabel" layoutMarginsFollowReadableWidth="YES" text="Holiday Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lS8-0z-0NP">
-                                                <rect key="frame" x="10" y="10" width="0.0" height="10"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <rect key="frame" x="8" y="32" width="97" height="20"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="AddInfoLabel" text="Add info Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qg6-aL-44A">
-                                                <rect key="frame" x="10" y="52" width="355" height="20.5"/>
+                                                <rect key="frame" x="10" y="76.5" width="355" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g6N-nh-2qF">
+                                                <rect key="frame" x="8" y="8" width="78" height="19.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -155,10 +162,12 @@
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="lS8-0z-0NP" secondAttribute="trailing" constant="10" id="0YH-5U-bdn"/>
                                             <constraint firstItem="lS8-0z-0NP" firstAttribute="leading" secondItem="ysV-HL-SuY" secondAttribute="leading" constant="10" id="1K3-tZ-SaE"/>
-                                            <constraint firstAttribute="height" constant="300" id="45w-DZ-2z2"/>
+                                            <constraint firstAttribute="height" constant="250" id="45w-DZ-2z2"/>
                                             <constraint firstItem="Qg6-aL-44A" firstAttribute="top" secondItem="lS8-0z-0NP" secondAttribute="bottom" constant="25" id="QBn-bB-Wyj"/>
                                             <constraint firstItem="Qg6-aL-44A" firstAttribute="leading" secondItem="ysV-HL-SuY" secondAttribute="leading" constant="10" id="YSG-zI-mE1"/>
-                                            <constraint firstItem="lS8-0z-0NP" firstAttribute="top" secondItem="ysV-HL-SuY" secondAttribute="top" constant="10" id="stD-Yq-0OO"/>
+                                            <constraint firstItem="g6N-nh-2qF" firstAttribute="top" secondItem="ysV-HL-SuY" secondAttribute="top" constant="8" id="m4k-Id-tDp"/>
+                                            <constraint firstItem="g6N-nh-2qF" firstAttribute="leading" secondItem="ysV-HL-SuY" secondAttribute="leading" constant="8" id="q7X-Ve-K11"/>
+                                            <constraint firstItem="lS8-0z-0NP" firstAttribute="top" secondItem="g6N-nh-2qF" secondAttribute="bottom" constant="6" id="s8u-o1-Tee"/>
                                             <constraint firstAttribute="trailing" secondItem="Qg6-aL-44A" secondAttribute="trailing" constant="10" id="xZc-ih-dfB"/>
                                         </constraints>
                                     </view>
@@ -206,6 +215,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="AddInfoLabel" destination="Qg6-aL-44A" id="Zyu-HC-35E"/>
+                        <outlet property="DateLabel" destination="g6N-nh-2qF" id="0H3-hv-O0y"/>
                         <outlet property="HolidayLabel" destination="lS8-0z-0NP" id="SWo-nV-wFv"/>
                         <outlet property="calendarView" destination="pPz-ZF-nO7" id="JA6-K2-ali"/>
                     </connections>
@@ -315,36 +325,44 @@
         <scene sceneID="l3l-5c-j2C">
             <objects>
                 <tableViewController id="fXX-13-Eo9" customClass="TableViewController" customModule="Calendar_Ortodox" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="uBx-Vt-o7M">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="88" sectionHeaderHeight="28" sectionFooterHeight="28" id="uBx-Vt-o7M">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="OtP-bb-0bo">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="holidayCell" rowHeight="88" id="fmo-nq-1DW" customClass="HolidayListTableViewCell" customModule="Calendar_Ortodox" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="88"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OtP-bb-0bo" id="whE-0A-Kuv">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="labelCell" textLabel="leg-TS-Lmp" rowHeight="40" style="IBUITableViewCellStyleDefault" id="9UX-fV-FTM">
-                                <rect key="frame" x="0.0" y="72" width="375" height="40"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9UX-fV-FTM" id="YCJ-Pk-qmt">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="39.5"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fmo-nq-1DW" id="lGq-0N-uk3">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="87.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="leg-TS-Lmp">
-                                            <rect key="frame" x="15" y="0.0" width="345" height="39.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <string key="text">kljsdfljlskdjflkjsdalfjlsdjfj asjnowcaoernicuaweo rocw eorucowenurnocw aeorcuowenucrwuencrouw eonrc wuenocrunw e rcw ueonrucwbe rcnwe rc</string>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wuv-gX-ICc">
+                                            <rect key="frame" x="19" y="8" width="39.5" height="19.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jga-rk-K1K">
+                                            <rect key="frame" x="19" y="35.5" width="331" height="18"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="wuv-gX-ICc" firstAttribute="leading" secondItem="lGq-0N-uk3" secondAttribute="leadingMargin" constant="11" id="00E-n9-l1C"/>
+                                        <constraint firstItem="Jga-rk-K1K" firstAttribute="top" secondItem="wuv-gX-ICc" secondAttribute="bottom" constant="8" id="4ef-9L-2zJ"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="Jga-rk-K1K" secondAttribute="bottom" constant="5" id="MSo-HM-BSE"/>
+                                        <constraint firstAttribute="topMargin" secondItem="wuv-gX-ICc" secondAttribute="top" id="g9u-Za-EBz"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="Jga-rk-K1K" secondAttribute="trailing" constant="17" id="ljN-Fb-YDO"/>
+                                        <constraint firstItem="Jga-rk-K1K" firstAttribute="leading" secondItem="lGq-0N-uk3" secondAttribute="leadingMargin" constant="11" id="tE3-yt-kWa"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="dateLabel" destination="wuv-gX-ICc" id="824-HU-HZe"/>
+                                    <outlet property="holidayLabel" destination="Jga-rk-K1K" id="5Bj-mT-Nia"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -377,6 +395,7 @@
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="holidaysTableView" destination="uBx-Vt-o7M" id="5vE-CZ-YYE"/>
                         <outlet property="tableView" destination="uBx-Vt-o7M" id="ba0-1P-w3r"/>
                     </connections>
                 </tableViewController>

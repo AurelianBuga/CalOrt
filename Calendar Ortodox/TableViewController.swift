@@ -10,7 +10,8 @@ import UIKit
 
 class TableViewController: UITableViewController , ExpandableHeaderViewDelegate {
 
-    @IBOutlet weak var holidaysTableView: UITableView!
+    
+    @IBOutlet var holidaysTableView: UITableView!
     
 
     let formatter = DateFormatter()
@@ -33,7 +34,7 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
     
     override func loadView() {
         super.loadView()
-        
+
         //load holidays
         
     }
@@ -46,6 +47,10 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         //self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        
+        holidaysTableView.rowHeight = UITableViewAutomaticDimension
+        holidaysTableView.estimatedRowHeight = 200
     }
 
     override func didReceiveMemoryWarning() {
@@ -67,12 +72,12 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
         return 44
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    /*override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if sections[indexPath.section].expanded {
             var height:CGFloat = calculateHeight(inString: sections[indexPath.section].holidays[indexPath.row].holiday)
             
             //fix for some holidays with fewer words
-            if height < 20.0 {
+            if height < 40.0 {
                 height += 22.0
             }
             
@@ -84,7 +89,7 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
         } else {
             return 0
         }
-    }
+    }*/
     
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 2
@@ -98,9 +103,14 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "labelCell")
-        cell?.textLabel?.attributedText = viewController.GenerateAttributedStringHoliday(holidayString: sections[indexPath.section].holidays[indexPath.row].holiday)
-        return cell!
+        let date = sections[indexPath.section].holidays[indexPath.row].date
+        let cell = tableView.dequeueReusableCell(withIdentifier: "holidayCell") as! HolidayListTableViewCell
+        let holidayWithoutDate = viewController.RemoveDateFromHolidayString(holidayString: sections[indexPath.section].holidays[indexPath.row].holiday, date: date!)
+        let holiday =  viewController.GenerateAttributedStringHoliday(holidayString: holidayWithoutDate)
+        cell.holidayLabel.attributedText = holiday
+        let calendar = Calendar.current
+        cell.dateLabel.text = String(calendar.component(.day, from: date!)) + ", " + viewController.GetWeekDayName(date: date!)
+        return cell
     }
 
     func toggleSection(header: ExpandableHeaderView, section: Int) {
@@ -122,7 +132,7 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
         
         let attributedString : NSAttributedString = NSAttributedString(string: messageString, attributes: attributes)
         
-        let rect : CGRect = attributedString.boundingRect(with: CGSize(width: 222.0, height: CGFloat.greatestFiniteMagnitude), options: .usesLineFragmentOrigin, context: nil)
+        let rect : CGRect = attributedString.boundingRect(with: CGSize(width: 192.0, height: CGFloat.greatestFiniteMagnitude), options: .usesLineFragmentOrigin, context: nil)
         
         let requredSize:CGRect = rect
         return requredSize.height

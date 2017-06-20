@@ -21,6 +21,7 @@
 		818BB00D1EF327C8004486DE /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818BB00C1EF327C8004486DE /* Section.swift */; };
 		818BB00F1EF32A19004486DE /* ExpandableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818BB00E1EF32A19004486DE /* ExpandableHeaderView.swift */; };
 		818BB0111EF32E5C004486DE /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818BB0101EF32E5C004486DE /* TableViewController.swift */; };
+		818BB0131EF8F6B0004486DE /* HolidayListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818BB0121EF8F6B0004486DE /* HolidayListTableViewCell.swift */; };
 		A15A665EDBE8FD24D6586D3F /* Pods_Calendar_Ortodox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6769E2FA4CA8BADD2B46E640 /* Pods_Calendar_Ortodox.framework */; };
 		CAD3A82C1B31FE4C29575EBA /* Pods_Calendar_OrtodoxTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A85CE057AA1B47535A88399E /* Pods_Calendar_OrtodoxTests.framework */; };
 		EC61F2793F23B00104D3E974 /* Pods_Calendar_OrtodoxUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62D54A7CD4FB82218A0D051F /* Pods_Calendar_OrtodoxUITests.framework */; };
@@ -68,6 +69,7 @@
 		818BB00C1EF327C8004486DE /* Section.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		818BB00E1EF32A19004486DE /* ExpandableHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpandableHeaderView.swift; sourceTree = "<group>"; };
 		818BB0101EF32E5C004486DE /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
+		818BB0121EF8F6B0004486DE /* HolidayListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HolidayListTableViewCell.swift; sourceTree = "<group>"; };
 		87249C2F53C614BCEA3672FB /* Pods-Calendar Ortodox.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Calendar Ortodox.release.xcconfig"; path = "Pods/Target Support Files/Pods-Calendar Ortodox/Pods-Calendar Ortodox.release.xcconfig"; sourceTree = "<group>"; };
 		A85CE057AA1B47535A88399E /* Pods_Calendar_OrtodoxTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Calendar_OrtodoxTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA659B129F0051D946FDCE96 /* Pods-Calendar OrtodoxUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Calendar OrtodoxUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Calendar OrtodoxUITests/Pods-Calendar OrtodoxUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 				818BAFFD1EEC9AFD004486DE /* import_test.csv */,
 				818BB0011EEC9B1E004486DE /* Holiday.swift */,
 				818BB0101EF32E5C004486DE /* TableViewController.swift */,
+				818BB0121EF8F6B0004486DE /* HolidayListTableViewCell.swift */,
 			);
 			path = "Calendar Ortodox";
 			sourceTree = "<group>";
@@ -488,6 +491,7 @@
 				818BB0111EF32E5C004486DE /* TableViewController.swift in Sources */,
 				818BAFCD1EEC7963004486DE /* Calendar_Ortodox.xcdatamodeld in Sources */,
 				818BB00D1EF327C8004486DE /* Section.swift in Sources */,
+				818BB0131EF8F6B0004486DE /* HolidayListTableViewCell.swift in Sources */,
 				818BB0001EEC9B0F004486DE /* CustomCell.swift in Sources */,
 				818BAFC51EEC7963004486DE /* AppDelegate.swift in Sources */,
 			);

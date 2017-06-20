@@ -19,6 +19,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var titleView: UINavigationItem!
     @IBOutlet weak var HolidayLabel: UILabel!
     @IBOutlet weak var AddInfoLabel: UILabel!
+    @IBOutlet weak var DateLabel: UILabel!
     
     var holidays: [Holiday] = []
     
@@ -158,12 +159,12 @@ class ViewController: UIViewController {
     func DisplayHoliday(date: Date) {
         let dateString = ConvertDateToString(date: date)
         let holidayString = GetHolidayStringByDateString(dateString: dateString!)
-        var attributedStringHoliday =  GenerateAttributedStringHoliday(holidayString: holidayString)
+        let attributedStringHoliday =  GenerateAttributedStringHoliday(holidayString: RemoveDateFromHolidayString(holidayString: RemoveAddInfoHoliday(holidayString: holidayString), date: date))
         HolidayLabel.attributedText = attributedStringHoliday
         
         setSelectedHoliday(holiday: attributedStringHoliday.string)
         
-        var addInfoString = ExtractAddInfoHoliday(holidayString: holidayString)
+        let addInfoString = ExtractAddInfoHoliday(holidayString: holidayString)
         
         if addInfoString != "" {
             AddInfoLabel.text = addInfoString
@@ -214,9 +215,31 @@ class ViewController: UIViewController {
         return holidayString
     }
     
+    func RemoveDateFromHolidayString(holidayString: String , date: Date) -> String {
+        var holidayStringWithoutDate = holidayString
+        
+        let calendar = Calendar.current
+        let dayNo = calendar.component(.day, from: date)
+        let dayNoRange = holidayStringWithoutDate.range(of: String(dayNo))
+        holidayStringWithoutDate.removeSubrange(dayNoRange!)
+        
+        let treeSpacesRange = holidayStringWithoutDate.range(of: "   ")
+        holidayStringWithoutDate.removeSubrange(treeSpacesRange!)
+        
+        formatter.dateFormat = "EEEE"
+        let dayInWeek = TranslateWeekDayName(weekDayName: formatter.string(from: date))
+        let index = dayInWeek.index(dayInWeek.startIndex, offsetBy: 1)
+        let dayChar = dayInWeek.substring(to: index)
+        let dayCharRange = holidayStringWithoutDate.range(of: dayChar)
+
+        holidayStringWithoutDate.removeSubrange(dayCharRange!)
+        
+        return holidayStringWithoutDate
+    }
+    
     func ExtractAddInfoHoliday(holidayString: String) -> String {
         //extract additional info : (Harţi) , (Post negru) , (Dezlegare la ulei şi vin) , (Post) , (Dezlegare la ouă, lapte şi brânză) , (Dezlegare la peste) , (Zi aliturgică) (Numai seara, pâine şi apă) ,
-        var addInfoList:[String] = ["(Harţi)" , "(Post negru)" , "(Dezlegare la ulei şi vin)" , "(Post)" , "(Dezlegare la ouă, lapte şi brânză)" , "(Dezlegare la peste)" , "(Dezlegare la peşte)" , "(Zi aliturgică)" , "(Numai seara, pâine şi apă)"]
+        let addInfoList:[String] = ["(Harţi)" , "(Post negru)" , "(Dezlegare la ulei şi vin)" , "(Post)" , "(Dezlegare la ouă, lapte şi brânză)" , "(Dezlegare la peste)" , "(Dezlegare la peşte)" , "(Zi aliturgică)" , "(Numai seara, pâine şi apă)"]
         var addInfoString:String = ""
         
         for addInfo in addInfoList {
@@ -230,6 +253,26 @@ class ViewController: UIViewController {
         }
         
         return addInfoString
+    }
+    
+    func RemoveAddInfoHoliday(holidayString: String) -> String {
+        let addInfoList:[String] = ["(Harţi)" , "(Post negru)" , "(Dezlegare la ulei şi vin)" , "(Post)" , "(Dezlegare la ouă, lapte şi brânză)" , "(Dezlegare la peste)" , "(Dezlegare la peşte)" , "(Zi aliturgică)" , "(Numai seara, pâine şi apă)"]
+        var outputString:String = ""
+        var holidayStringRemovable = holidayString
+        
+        for addInfo in addInfoList {
+            if holidayString.contains(addInfo) {
+                outputString = holidayStringRemovable.replacingOccurrences(of: addInfo, with: "")
+                holidayStringRemovable = outputString
+            }
+        }
+        
+        if outputString != "" {
+            return outputString
+        } else {
+            return holidayString
+        }
+        
     }
     
     
@@ -491,21 +534,57 @@ class ViewController: UIViewController {
         for range in boldRanges {
             myMutableString.addAttribute(NSFontAttributeName , value: UIFont.boldSystemFont(ofSize: 14.0)  , range: holidayStringWithoutTags.nsRange(from: range!))
         }
-        
-        //myMutableString.addAttribute(NSFontAttributeName , value: UIFont.systemFont(ofSize: 14.0) , range: holidayStringWithoutTags.nsRange(from: range))
-        
-        //add bold to letter days
-        var startIndex = holidayStringWithoutTags.range(of: " ")?.lowerBound
-        var endIndex = holidayStringWithoutTags.index(holidayStringWithoutTags.startIndex , offsetBy: 4)
-        var range = startIndex!..<endIndex
-        myMutableString.addAttribute(NSFontAttributeName , value: UIFont.boldSystemFont(ofSize: 15.0) , range: holidayStringWithoutTags.nsRange(from: range))
-        
-        
-        //make day number bigger
-        range = holidayStringWithoutTags.startIndex..<startIndex!
-        myMutableString.addAttribute(NSFontAttributeName , value: UIFont.systemFont(ofSize: 20.0) , range: holidayStringWithoutTags.nsRange(from: range))
-        
+
         return myMutableString
+    }
+    
+    func GetWeekDayName(date: Date) -> String {
+        formatter.dateFormat = "EEEE"
+        let dayInWeek = formatter.string(from: date)
+        let translatedDayWeek = TranslateWeekDayName(weekDayName: dayInWeek)
+        
+        return translatedDayWeek
+    }
+    
+    func TranslateWeekDayName(weekDayName: String) -> String {
+        var translatedWeekDay:String = ""
+        
+        switch weekDayName {
+        case "Monday" :
+            translatedWeekDay = "Luni"
+            break
+        case "Tuesday" :
+            translatedWeekDay = "Marți"
+            break
+        case "Wednesday" :
+            translatedWeekDay = "Miercuri"
+            break
+        case "Thursday" :
+            translatedWeekDay = "Joi"
+            break
+        case "Friday" :
+            translatedWeekDay = "Vineri"
+            break
+        case "Saturday" :
+            translatedWeekDay = "Sâmbătă"
+            break
+        case "Sunday" :
+            translatedWeekDay = "Duminică"
+            break
+        default:
+            break
+        }
+        
+        return translatedWeekDay
+    }
+    
+    
+    func DisplayDate(date: Date) {
+        let weekDayName = GetWeekDayName(date: date)
+        let weekDayNameTrans = TranslateWeekDayName(weekDayName: weekDayName)
+        let calendar = Calendar.current
+        let dayNo = calendar.component(.day, from: date)
+        DateLabel.text = String(dayNo) + ", " + weekDayName
     }
     
     func ConvertDateToString(date: Date) -> String? {
@@ -639,7 +718,7 @@ extension ViewController: JTAppleCalendarViewDelegate {
         handleCellTextColor(view: cell, cellState: cellState)
         
         setSelectedDate(date: date)
-        
+        DisplayDate(date: date)
         DisplayHoliday(date: cellState.date)
         
         //scroll to next/prev month if selected date is not from this month
