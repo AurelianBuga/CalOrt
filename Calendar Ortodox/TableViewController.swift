@@ -72,24 +72,13 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
         return 44
     }
     
-    /*override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if sections[indexPath.section].expanded {
-            var height:CGFloat = calculateHeight(inString: sections[indexPath.section].holidays[indexPath.row].holiday)
-            
-            //fix for some holidays with fewer words
-            if height < 40.0 {
-                height += 22.0
-            }
-            
-            //fix for some holidays with many words
-            if height > 140.0 {
-                height = height - 15
-            }
-            return height
-        } else {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {        
+        if !sections[indexPath.section].expanded {
             return 0
+        } else {
+            return UITableViewAutomaticDimension
         }
-    }*/
+    }
     
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 2
