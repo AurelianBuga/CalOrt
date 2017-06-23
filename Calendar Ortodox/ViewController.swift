@@ -572,7 +572,7 @@ class ViewController: UIViewController {
             translatedWeekDay = "Duminică"
             break
         default:
-            break
+            translatedWeekDay = weekDayName.capitalizingFirstLetter()
         }
         
         return translatedWeekDay
@@ -755,6 +755,18 @@ extension UIColor {
             green: CGFloat((value & 0x00FF00) >> 8) / 255.0,
             blue: CGFloat(value & 0x0000FF) / 255.0,
             alpha: alpha)
+    }
+}
+
+extension String {
+    func capitalizingFirstLetter() -> String {
+        let first = String(characters.prefix(1)).capitalized
+        let other = String(characters.dropFirst())
+        return first + other
+    }
+    
+    mutating func capitalizeFirstLetter() {
+        self = self.capitalizingFirstLetter()
     }
 }
 

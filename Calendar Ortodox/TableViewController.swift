@@ -8,11 +8,13 @@
 
 import UIKit
 
-class TableViewController: UITableViewController , ExpandableHeaderViewDelegate {
+class TableViewController: UITableViewController , ExpandableHeaderViewDelegate , UISearchResultsUpdating {
 
     
     @IBOutlet var holidaysTableView: UITableView!
     
+    var searchController : UISearchController!
+    var activityIndicatorView: UIActivityIndicatorView!
 
     let formatter = DateFormatter()
     var viewController = ViewController()
@@ -32,9 +34,29 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
         Section(month: "Decembrie", holidays: [], expanded: false , loaded: false)
     ]
     
+    var filteredSections = [Section]()
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if sections[0].holidays.count == 0 {
+            activityIndicatorView.startAnimating()
+            
+            DispatchQueue.global(qos: .userInitiated).async {
+                
+                OperationQueue.main.addOperation() {
+                    self.LoadAllHolidays()
+                    self.activityIndicatorView.stopAnimating()
+                    
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
+    
     override func loadView() {
         super.loadView()
-
         //load holidays
         
     }
@@ -48,9 +70,38 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         //self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
+        activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+        self.tableView.backgroundView = activityIndicatorView
         
         holidaysTableView.rowHeight = UITableViewAutomaticDimension
         holidaysTableView.estimatedRowHeight = 200
+        
+        self.searchController = UISearchController(searchResultsController: nil)
+        //self.holidaysTableView.tableHeaderView = self.searchController.searchBar
+        self.searchController.searchBar.sizeToFit()
+        self.searchController.hidesNavigationBarDuringPresentation = false
+        self.searchController.searchBar.placeholder = "Caută"
+        self.searchController.searchResultsUpdater = self
+        self.searchController.dimsBackgroundDuringPresentation = false
+        self.navigationItem.titleView = self.searchController.searchBar
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        let searchString = searchController.searchBar.text!
+        
+        if searchString == "" {
+            filteredSections = sections
+        } else {
+            filteredSections.removeAll() // is mandatory to empty the filtered array
+            for section in sections {
+                let filteredContent = section.holidays.filter { $0.holiday.range(of: searchString) != nil }
+                filteredSections.append(Section(month: section.month , holidays : filteredContent , expanded: true , loaded: true))
+            }
+        }
+        
+        var sectionIndex = (filteredSections.count == 0 ? 0 : filteredSections.count - 1)
+        tableView.reloadData()
+        tableView.reloadSections(IndexSet(integersIn: 0...sectionIndex), with: .automatic)
     }
 
     override func didReceiveMemoryWarning() {
@@ -65,19 +116,40 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sections[section].holidays.count
+        if searchController.isActive && searchController.searchBar.text != "" {
+            if filteredSections[section].expanded {
+                return filteredSections[section].holidays.count
+            } else {
+                return 0
+            }
+        } else {
+            if sections[section].expanded {
+                return sections[section].holidays.count
+            } else {
+                return 0
+            }
+        }
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 44
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {        
-        if !sections[indexPath.section].expanded {
-            return 0
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if searchController.isActive && searchController.searchBar.text != "" {
+            if !filteredSections[indexPath.section].expanded {
+                return 0
+            } else {
+                return UITableViewAutomaticDimension
+            }
         } else {
-            return UITableViewAutomaticDimension
+            if !sections[indexPath.section].expanded {
+                return 0
+            } else {
+                return UITableViewAutomaticDimension
+            }
         }
+        
     }
     
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -92,26 +164,34 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let date = sections[indexPath.section].holidays[indexPath.row].date
+        let date: Date
         let cell = tableView.dequeueReusableCell(withIdentifier: "holidayCell") as! HolidayListTableViewCell
-        let holidayWithoutDate = viewController.RemoveDateFromHolidayString(holidayString: sections[indexPath.section].holidays[indexPath.row].holiday, date: date!)
-        let holiday =  viewController.GenerateAttributedStringHoliday(holidayString: holidayWithoutDate)
+        //let holidayWithoutDate = viewController.RemoveDateFromHolidayString(holidayString: sections[indexPath.section].holidays[indexPath.row].holiday, date: date!)
+        //let holiday =  viewController.GenerateAttributedStringHoliday(holidayString: holidayWithoutDate)
+        let holidayWithoutDate: String!
+        if searchController.isActive && searchController.searchBar.text != "" {
+            date = filteredSections[indexPath.section].holidays[indexPath.row].date
+            holidayWithoutDate = viewController.RemoveDateFromHolidayString(holidayString: filteredSections[indexPath.section].holidays[indexPath.row].holiday, date: date)
+        } else {
+            date  =  sections[indexPath.section].holidays[indexPath.row].date
+            holidayWithoutDate = viewController.RemoveDateFromHolidayString(holidayString: sections[indexPath.section].holidays[indexPath.row].holiday, date: date)
+        }
+        
+        let holiday = viewController.GenerateAttributedStringHoliday(holidayString: holidayWithoutDate)
         cell.holidayLabel.attributedText = holiday
         let calendar = Calendar.current
-        cell.dateLabel.text = String(calendar.component(.day, from: date!)) + ", " + viewController.GetWeekDayName(date: date!)
+        cell.dateLabel.text = String(calendar.component(.day, from: date)) + ", " + viewController.GetWeekDayName(date: date)
         return cell
     }
 
     func toggleSection(header: ExpandableHeaderView, section: Int) {
-        sections[section].expanded = !sections[section].expanded
-        
-        if !sections[section].loaded {
-            LoadHolidays(monthNo: section + 1)
-            tableView.reloadSections(IndexSet(integersIn: section...section), with: .automatic)
-            sections[section].loaded = true
+        if searchController.isActive && searchController.searchBar.text != "" {
+            filteredSections[section].expanded = !filteredSections[section].expanded
         } else {
-            tableView.reloadSections(IndexSet(integersIn: section...section), with: .automatic)
+            sections[section].expanded = !sections[section].expanded
         }
+        
+        tableView.reloadSections(IndexSet(integersIn: section...section), with: .automatic)
     }
     
     func calculateHeight(inString:String) -> CGFloat
@@ -163,12 +243,16 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
     
     
     @IBAction func GoToCurrentDate(_ sender: Any) {
-        var currentDate = Date()
+        let currentDate = Date()
         let calendar = Calendar.current
-        var currentMonth = calendar.component(.month, from: currentDate)
-        var currentDay = calendar.component(.day, from: currentDate)
-        toggleSection(header: ExpandableHeaderView(), section: currentMonth - 1)
-        var indexPath = IndexPath(row: currentDay, section: currentMonth - 1)
+        let currentMonth = calendar.component(.month, from: currentDate)
+        let currentDay = calendar.component(.day, from: currentDate)
+        
+        if !sections[currentMonth - 1].expanded {
+            toggleSection(header: ExpandableHeaderView(), section: currentMonth - 1)
+        }
+        
+        let indexPath = IndexPath(row: currentDay, section: currentMonth - 1)
         tableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableViewScrollPosition.middle)
     }
     

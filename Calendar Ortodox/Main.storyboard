@@ -321,7 +321,7 @@
             </objects>
             <point key="canvasLocation" x="1960.8" y="496.10194902548727"/>
         </scene>
-        <!--Sărbători-->
+        <!--Title-->
         <scene sceneID="l3l-5c-j2C">
             <objects>
                 <tableViewController id="fXX-13-Eo9" customClass="TableViewController" customModule="Calendar_Ortodox" customModuleProvider="target" sceneMemberID="viewController">
@@ -353,7 +353,7 @@
                                     <constraints>
                                         <constraint firstItem="wuv-gX-ICc" firstAttribute="leading" secondItem="lGq-0N-uk3" secondAttribute="leadingMargin" constant="11" id="00E-n9-l1C"/>
                                         <constraint firstItem="Jga-rk-K1K" firstAttribute="top" secondItem="wuv-gX-ICc" secondAttribute="bottom" constant="8" id="4ef-9L-2zJ"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="Jga-rk-K1K" secondAttribute="bottom" constant="5" id="MSo-HM-BSE"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="Jga-rk-K1K" secondAttribute="bottom" constant="5" id="eTX-hm-0VK"/>
                                         <constraint firstAttribute="topMargin" secondItem="wuv-gX-ICc" secondAttribute="top" id="g9u-Za-EBz"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="Jga-rk-K1K" secondAttribute="trailing" constant="17" id="ljN-Fb-YDO"/>
                                         <constraint firstItem="Jga-rk-K1K" firstAttribute="leading" secondItem="lGq-0N-uk3" secondAttribute="leadingMargin" constant="11" id="tE3-yt-kWa"/>
@@ -370,7 +370,7 @@
                             <outlet property="delegate" destination="fXX-13-Eo9" id="nSG-Vg-qc0"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Sărbători" id="Jb6-xy-1Ls">
+                    <navigationItem key="navigationItem" title="Title" id="Jb6-xy-1Ls">
                         <barButtonItem key="leftBarButtonItem" style="plain" id="soH-mz-VXC">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="B6n-f0-8la">
                                 <rect key="frame" x="16" y="7" width="30" height="30"/>
@@ -381,18 +381,11 @@
                                 </connections>
                             </button>
                         </barButtonItem>
-                        <rightBarButtonItems>
-                            <barButtonItem image="bell" id="igc-Yt-MfN">
-                                <connections>
-                                    <action selector="SetNotification:" destination="fXX-13-Eo9" id="dqJ-VP-f0t"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem style="plain" systemItem="search" id="ZBg-t8-fBj">
-                                <connections>
-                                    <action selector="SetNotification:" destination="fXX-13-Eo9" id="jsM-nQ-yEU"/>
-                                </connections>
-                            </barButtonItem>
-                        </rightBarButtonItems>
+                        <barButtonItem key="rightBarButtonItem" image="bell" id="igc-Yt-MfN">
+                            <connections>
+                                <action selector="SetNotification:" destination="fXX-13-Eo9" id="dqJ-VP-f0t"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="holidaysTableView" destination="uBx-Vt-o7M" id="5vE-CZ-YYE"/>
