@@ -388,6 +388,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="NotificationButton" destination="igc-Yt-MfN" id="T1F-Aw-4eN"/>
+                        <outlet property="TodayButton" destination="soH-mz-VXC" id="8B1-Yp-UHM"/>
                         <outlet property="holidaysTableView" destination="uBx-Vt-o7M" id="5vE-CZ-YYE"/>
                         <outlet property="tableView" destination="uBx-Vt-o7M" id="ba0-1P-w3r"/>
                     </connections>

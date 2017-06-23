@@ -623,7 +623,10 @@ class ViewController: UIViewController {
             switch notificationSettings.authorizationStatus {
             case .notDetermined:
                 self.requestAuthorization(completionHandler: { (success) in
-                    guard success else { return }
+                    guard success else {
+                        self.createAlert(title: "Alertă" , message: "Pentru a putea activa această funcționalitate ar trebui sa permiți aplicației Calendar Ortodox să trimită notificări. Pentru a face asta te rog du-te pe dispozitivul tău in Setări -> Calendar Ortodox -> Notificări și selectează ON la opțiunea Permite notificări.")
+                        return
+                    }
                     
                     // Schedule Local Notification
                     self.scheduleNotification(at: Date()) //test
@@ -632,7 +635,7 @@ class ViewController: UIViewController {
                 // Schedule Local Notification
                 self.scheduleNotification(at: Date()) //test
             case .denied:
-                print("Application Not Allowed to Display Notifications")
+                self.createAlert(title: "Alertă" , message: "Pentru a putea activa această funcționalitate ar trebui sa permiți aplicației Calendar Ortodox să trimită notificări. Pentru a face asta te rog du-te pe dispozitivul tău in Setări -> Calendar Ortodox -> Notificări și selectează ON la opțiunea Permite notificări.")
             }
         }
     }
@@ -678,6 +681,17 @@ class ViewController: UIViewController {
             }
         }
     }
+    
+    func createAlert(title: String , message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (action) in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+
 }
 
 extension ViewController: UNUserNotificationCenterDelegate {
@@ -740,13 +754,7 @@ extension ViewController: JTAppleCalendarViewDelegate {
     }
 }
 
-extension String {
-    func nsRange(from range: Range<Index>) -> NSRange {
-        let lower = UTF16View.Index(range.lowerBound, within: utf16)
-        let upper = UTF16View.Index(range.upperBound, within: utf16)
-        return NSRange(location: utf16.startIndex.distance(to: lower), length: lower.distance(to: upper))
-    }
-}
+
 
 extension UIColor {
     convenience init(colorWithHexValue value: Int , alpha : CGFloat = 1.0) {

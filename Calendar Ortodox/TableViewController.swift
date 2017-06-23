@@ -8,16 +8,22 @@
 
 import UIKit
 
-class TableViewController: UITableViewController , ExpandableHeaderViewDelegate , UISearchResultsUpdating {
+class TableViewController: UITableViewController , ExpandableHeaderViewDelegate , UISearchResultsUpdating , UISearchBarDelegate {
 
     
     @IBOutlet var holidaysTableView: UITableView!
+    @IBOutlet var TodayButton: UIBarButtonItem!
+    @IBOutlet var NotificationButton: UIBarButtonItem!
     
     var searchController : UISearchController!
     var activityIndicatorView: UIActivityIndicatorView!
 
     let formatter = DateFormatter()
     var viewController = ViewController()
+    
+    var highlightedSearchRanges = [
+        [Range<String.Index>](), [Range<String.Index>](), [Range<String.Index>](), [Range<String.Index>](), [Range<String.Index>](), [Range<String.Index>](), [Range<String.Index>](), [Range<String.Index>](), [Range<String.Index>](), [Range<String.Index>](), [Range<String.Index>](), [Range<String.Index>]()
+    ]
     
     var sections = [
         Section(month: "Ianuarie", holidays: [], expanded: false , loaded: false),
@@ -80,6 +86,7 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
         //self.holidaysTableView.tableHeaderView = self.searchController.searchBar
         self.searchController.searchBar.sizeToFit()
         self.searchController.hidesNavigationBarDuringPresentation = false
+        self.searchController.searchBar.delegate = self
         self.searchController.searchBar.placeholder = "Caută"
         self.searchController.searchResultsUpdater = self
         self.searchController.dimsBackgroundDuringPresentation = false
@@ -92,10 +99,25 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
         if searchString == "" {
             filteredSections = sections
         } else {
+            var i = 0
             filteredSections.removeAll() // is mandatory to empty the filtered array
             for section in sections {
-                let filteredContent = section.holidays.filter { $0.holiday.range(of: searchString) != nil }
+                //var filteredContent = section.holidays.filter { $0.holiday.range(of: searchString) != nil }
+                var filteredContent = [HolidayStr]()
+                highlightedSearchRanges[i].removeAll()
+                for holiday in section.holidays {
+                    var date = holiday.date
+                    var holidayWithoutDate = viewController.RemoveDateFromHolidayString(holidayString: holiday.holiday, date: date!)
+                    let holidayWithAttr = viewController.GenerateAttributedStringHoliday(holidayString: holidayWithoutDate)
+                    
+                    
+                    if holidayWithAttr.string.contains(searchString) {
+                        highlightedSearchRanges[i].append(holidayWithAttr.string.range(of: searchString)!)
+                        filteredContent.append(holiday)
+                    }
+                }
                 filteredSections.append(Section(month: section.month , holidays : filteredContent , expanded: true , loaded: true))
+                i += 1
             }
         }
         
@@ -103,6 +125,8 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
         tableView.reloadData()
         tableView.reloadSections(IndexSet(integersIn: 0...sectionIndex), with: .automatic)
     }
+    
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -152,6 +176,30 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
         
     }
     
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        self.navigationItem.setRightBarButton(nil, animated: true)
+        self.navigationItem.setLeftBarButton(nil, animated: true)
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.navigationItem.setRightBarButton(NotificationButton, animated: true)
+        self.navigationItem.setLeftBarButton(TodayButton, animated: true)
+        self.searchController.searchBar.sizeToFit()
+    }
+    
+    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        var sectionIndexTitlesArray: [String] = []
+        for var section in sections {
+            sectionIndexTitlesArray.append(section.month[0])
+        }
+        
+        return sectionIndexTitlesArray
+    }
+    
+    override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+        return index
+    }
+    
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 2
     }
@@ -178,10 +226,21 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
         }
         
         let holiday = viewController.GenerateAttributedStringHoliday(holidayString: holidayWithoutDate)
-        cell.holidayLabel.attributedText = holiday
+        if searchController.isActive && searchController.searchBar.text != "" {
+            cell.holidayLabel.attributedText = highlightSearchedText(holiday: holiday , indexPath: indexPath)
+        } else {
+            cell.holidayLabel.attributedText = holiday
+        }
+        
         let calendar = Calendar.current
         cell.dateLabel.text = String(calendar.component(.day, from: date)) + ", " + viewController.GetWeekDayName(date: date)
         return cell
+    }
+    
+    func highlightSearchedText(holiday: NSMutableAttributedString , indexPath : IndexPath) -> NSMutableAttributedString {
+        holiday.addAttribute(NSBackgroundColorAttributeName, value: UIColor.yellow, range: holiday.string.nsRange(from: highlightedSearchRanges[indexPath.section][indexPath.row]))
+        
+        return holiday
     }
 
     func toggleSection(header: ExpandableHeaderView, section: Int) {
@@ -283,4 +342,29 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
     
     
 
+}
+
+extension String {
+    
+    subscript (i: Int) -> Character {
+        return self[index(startIndex, offsetBy: i)]
+    }
+    
+    subscript (i: Int) -> String {
+        return String(self[i] as Character)
+    }
+    
+    subscript (r: Range<Int>) -> String {
+        let start = index(startIndex, offsetBy: r.lowerBound)
+        let end = index(startIndex, offsetBy: r.upperBound - r.lowerBound)
+        return self[Range(start ..< end)]
+    }
+}
+
+extension String {
+    func nsRange(from range: Range<Index>) -> NSRange {
+        let lower = UTF16View.Index(range.lowerBound, within: utf16)
+        let upper = UTF16View.Index(range.upperBound, within: utf16)
+        return NSRange(location: utf16.startIndex.distance(to: lower), length: lower.distance(to: upper))
+    }
 }
