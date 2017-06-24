@@ -14,9 +14,10 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
     @IBOutlet var holidaysTableView: UITableView!
     @IBOutlet var TodayButton: UIBarButtonItem!
     @IBOutlet var NotificationButton: UIBarButtonItem!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var LoadingView: UIView!
     
     var searchController : UISearchController!
-    var activityIndicatorView: UIActivityIndicatorView!
 
     let formatter = DateFormatter()
     var viewController = ViewController()
@@ -42,24 +43,7 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
     
     var filteredSections = [Section]()
     
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        if sections[0].holidays.count == 0 {
-            activityIndicatorView.startAnimating()
-            
-            DispatchQueue.global(qos: .userInitiated).async {
-                
-                OperationQueue.main.addOperation() {
-                    self.LoadAllHolidays()
-                    self.activityIndicatorView.stopAnimating()
-                    
-                    self.tableView.reloadData()
-                }
-            }
-        }
-    }
+
     
     override func loadView() {
         super.loadView()
@@ -69,15 +53,21 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //LoadHolidays()
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        //self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        
-        activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
-        self.tableView.backgroundView = activityIndicatorView
+        if sections[11].holidays.count == 0 {
+            activityIndicator.startAnimating()
+            activityIndicator.backgroundColor = UIColor.white
+            
+            DispatchQueue.global(qos: .userInitiated).async {
+                self.LoadAllHolidays()
+                self.activityIndicator.stopAnimating()
+                self.activityIndicator.isHidden = true
+                self.LoadingView.removeFromSuperview()
+                self.tableView.contentInset = UIEdgeInsets.init(top: 20.0, left: 0.0, bottom: 0.0, right: 0.0)
+                
+                self.tableView.reloadData()
+            }
+        }
         
         holidaysTableView.rowHeight = UITableViewAutomaticDimension
         holidaysTableView.estimatedRowHeight = 200
@@ -111,8 +101,8 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
                     let holidayWithAttr = viewController.GenerateAttributedStringHoliday(holidayString: holidayWithoutDate)
                     
                     
-                    if holidayWithAttr.string.contains(searchString) {
-                        highlightedSearchRanges[i].append(holidayWithAttr.string.range(of: searchString)!)
+                    if holidayWithAttr.string.lowercased().contains(searchString.lowercased()) {
+                        highlightedSearchRanges[i].append(holidayWithAttr.string.lowercased().range(of: searchString.lowercased())!)
                         filteredContent.append(holiday)
                     }
                 }
@@ -250,7 +240,7 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
             sections[section].expanded = !sections[section].expanded
         }
         
-        tableView.reloadSections(IndexSet(integersIn: section...section), with: .automatic)
+        tableView.reloadSections(IndexSet(integersIn: section...11), with: .automatic)
     }
     
     func calculateHeight(inString:String) -> CGFloat

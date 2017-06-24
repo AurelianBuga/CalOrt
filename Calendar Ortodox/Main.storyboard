@@ -329,9 +329,32 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="RGf-cZ-u9E">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="66R-v6-R9j">
+                                    <rect key="frame" x="111" y="12" width="20" height="20"/>
+                                </activityIndicatorView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Se incarcă..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z6a-G1-Y8G">
+                                    <rect key="frame" x="152" y="12" width="94" height="21"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="trailing" secondItem="Z6a-G1-Y8G" secondAttribute="trailing" constant="129" id="3Cq-zc-Nn7"/>
+                                <constraint firstItem="66R-v6-R9j" firstAttribute="leading" secondItem="RGf-cZ-u9E" secondAttribute="leading" constant="111" id="4si-7f-Z2Y"/>
+                                <constraint firstItem="Z6a-G1-Y8G" firstAttribute="centerY" secondItem="RGf-cZ-u9E" secondAttribute="centerY" id="ElW-tT-f9B"/>
+                                <constraint firstItem="66R-v6-R9j" firstAttribute="centerY" secondItem="RGf-cZ-u9E" secondAttribute="centerY" id="cJD-bv-ECa"/>
+                                <constraint firstItem="Z6a-G1-Y8G" firstAttribute="leading" secondItem="66R-v6-R9j" secondAttribute="trailing" constant="21" id="zJ3-o5-IhE"/>
+                            </constraints>
+                        </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="holidayCell" rowHeight="88" id="fmo-nq-1DW" customClass="HolidayListTableViewCell" customModule="Calendar_Ortodox" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="88"/>
+                                <rect key="frame" x="0.0" y="72" width="375" height="88"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fmo-nq-1DW" id="lGq-0N-uk3">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="87.5"/>
@@ -388,8 +411,10 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="LoadingView" destination="RGf-cZ-u9E" id="QZx-8t-rio"/>
                         <outlet property="NotificationButton" destination="igc-Yt-MfN" id="T1F-Aw-4eN"/>
                         <outlet property="TodayButton" destination="soH-mz-VXC" id="8B1-Yp-UHM"/>
+                        <outlet property="activityIndicator" destination="66R-v6-R9j" id="kS3-jx-cPx"/>
                         <outlet property="holidaysTableView" destination="uBx-Vt-o7M" id="5vE-CZ-YYE"/>
                         <outlet property="tableView" destination="uBx-Vt-o7M" id="ba0-1P-w3r"/>
                     </connections>
