@@ -8,7 +8,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
-        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -146,7 +145,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="AddInfoLabel" text="Add info Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qg6-aL-44A">
-                                                <rect key="frame" x="10" y="76.5" width="355" height="20.5"/>
+                                                <rect key="frame" x="10" y="76" width="355" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -204,14 +203,11 @@
                                 </connections>
                             </button>
                         </barButtonItem>
-                        <rightBarButtonItems>
-                            <barButtonItem image="bell" id="ORS-JJ-r6r">
-                                <connections>
-                                    <action selector="SetNotificationButtonClick:" destination="BYZ-38-t0r" id="Lr0-zH-zdx"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem systemItem="search" id="bf6-tZ-oo4"/>
-                        </rightBarButtonItems>
+                        <barButtonItem key="rightBarButtonItem" image="bell" id="ORS-JJ-r6r">
+                            <connections>
+                                <action selector="SetNotificationButtonClick:" destination="BYZ-38-t0r" id="Lr0-zH-zdx"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="AddInfoLabel" destination="Qg6-aL-44A" id="Zyu-HC-35E"/>
@@ -224,7 +220,7 @@
             </objects>
             <point key="canvasLocation" x="2880.8000000000002" y="-234.33283358320841"/>
         </scene>
-        <!--Settings-->
+        <!--Rugăciuni-->
         <scene sceneID="vir-e8-Cvy">
             <objects>
                 <viewController id="vwo-Sq-VQQ" sceneMemberID="viewController">
@@ -237,13 +233,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Settings" id="9Ou-Yy-FcI"/>
+                    <tabBarItem key="tabBarItem" title="Rugăciuni" id="9Ou-Yy-FcI"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hhL-rX-0jm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1961" y="2176"/>
         </scene>
-        <!--Item-->
+        <!--S-->
         <scene sceneID="GbG-Dm-aMx">
             <objects>
                 <viewController id="IiP-De-YXP" sceneMemberID="viewController">
@@ -256,7 +252,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="V7u-mv-q4h"/>
+                    <tabBarItem key="tabBarItem" title="S" id="V7u-mv-q4h"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9D6-LQ-Ck4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -342,12 +338,26 @@
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
+                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="7t4-XY-84e">
+                                    <rect key="frame" x="36" y="7" width="303" height="29"/>
+                                    <segments>
+                                        <segment title="Toate"/>
+                                        <segment title="† Neagră"/>
+                                        <segment title="† Albastră"/>
+                                        <segment title="† Roșie"/>
+                                    </segments>
+                                    <connections>
+                                        <action selector="SegmentControlChanged:" destination="fXX-13-Eo9" eventType="valueChanged" id="mR7-Fq-AhU"/>
+                                    </connections>
+                                </segmentedControl>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="trailing" secondItem="Z6a-G1-Y8G" secondAttribute="trailing" constant="129" id="3Cq-zc-Nn7"/>
                                 <constraint firstItem="66R-v6-R9j" firstAttribute="leading" secondItem="RGf-cZ-u9E" secondAttribute="leading" constant="111" id="4si-7f-Z2Y"/>
                                 <constraint firstItem="Z6a-G1-Y8G" firstAttribute="centerY" secondItem="RGf-cZ-u9E" secondAttribute="centerY" id="ElW-tT-f9B"/>
+                                <constraint firstItem="7t4-XY-84e" firstAttribute="centerY" secondItem="RGf-cZ-u9E" secondAttribute="centerY" id="HPP-zs-Ov2"/>
+                                <constraint firstItem="7t4-XY-84e" firstAttribute="centerX" secondItem="RGf-cZ-u9E" secondAttribute="centerX" id="SDA-UQ-pd8"/>
                                 <constraint firstItem="66R-v6-R9j" firstAttribute="centerY" secondItem="RGf-cZ-u9E" secondAttribute="centerY" id="cJD-bv-ECa"/>
                                 <constraint firstItem="Z6a-G1-Y8G" firstAttribute="leading" secondItem="66R-v6-R9j" secondAttribute="trailing" constant="21" id="zJ3-o5-IhE"/>
                             </constraints>
@@ -411,11 +421,12 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="LoadingView" destination="RGf-cZ-u9E" id="QZx-8t-rio"/>
+                        <outlet property="LoadingText" destination="Z6a-G1-Y8G" id="BsR-OQ-cmm"/>
                         <outlet property="NotificationButton" destination="igc-Yt-MfN" id="T1F-Aw-4eN"/>
                         <outlet property="TodayButton" destination="soH-mz-VXC" id="8B1-Yp-UHM"/>
                         <outlet property="activityIndicator" destination="66R-v6-R9j" id="kS3-jx-cPx"/>
                         <outlet property="holidaysTableView" destination="uBx-Vt-o7M" id="5vE-CZ-YYE"/>
+                        <outlet property="segmentControl" destination="7t4-XY-84e" id="FMb-dM-c1k"/>
                         <outlet property="tableView" destination="uBx-Vt-o7M" id="ba0-1P-w3r"/>
                     </connections>
                 </tableViewController>

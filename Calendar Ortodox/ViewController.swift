@@ -39,10 +39,6 @@ class ViewController: UIViewController {
         selectedHoliday = HolidayStr()
     }
     
-    @objc public func selectorTest(notification:Notification) {
-        print(".....")
-    }
-    
     
     func setSelectedDate(date: Date) {
         self.selectedHoliday?.date = date
@@ -578,6 +574,8 @@ class ViewController: UIViewController {
         return translatedWeekDay
     }
     
+
+    
     
     func DisplayDate(date: Date) {
         let weekDayName = GetWeekDayName(date: date)
@@ -605,7 +603,6 @@ class ViewController: UIViewController {
         var date = (selectedHoliday?.date)!
         SetNotification(date: date)
     }
-    
     
     private func requestAuthorization(completionHandler: @escaping (_ success: Bool) -> ()) {
         // Request Authorization

@@ -8,6 +8,13 @@
 
 import Foundation
 
+enum CrossType {
+    case red
+    case blue
+    case black
+    case none
+}
+
 struct Section {
     var month:String!
     var holidays:[HolidayStr]!
@@ -25,10 +32,12 @@ struct Section {
 struct HolidayStr {
     var holiday: String!
     var date: Date!
+    var crossTypes: [CrossType]!
     
-    init(holiday: String , date: Date) {
+    init(holiday: String , date: Date , crossTypes: [CrossType]) {
         self.holiday = holiday
         self.date = date
+        self.crossTypes = crossTypes
     }
     
     init() {

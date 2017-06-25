@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 class TableViewController: UITableViewController , ExpandableHeaderViewDelegate , UISearchResultsUpdating , UISearchBarDelegate {
 
@@ -15,12 +16,15 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
     @IBOutlet var TodayButton: UIBarButtonItem!
     @IBOutlet var NotificationButton: UIBarButtonItem!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var LoadingView: UIView!
+    @IBOutlet weak var LoadingText: UILabel!
+    @IBOutlet weak var segmentControl: UISegmentedControl!
     
     var searchController : UISearchController!
 
     let formatter = DateFormatter()
     var viewController = ViewController()
+    
+    var selectedHoliday:HolidayStr?
     
     var highlightedSearchRanges = [
         [Range<String.Index>](), [Range<String.Index>](), [Range<String.Index>](), [Range<String.Index>](), [Range<String.Index>](), [Range<String.Index>](), [Range<String.Index>](), [Range<String.Index>](), [Range<String.Index>](), [Range<String.Index>](), [Range<String.Index>](), [Range<String.Index>]()
@@ -53,8 +57,11 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        filteredSections = sections
 
-        if sections[11].holidays.count == 0 {
+        if filteredSections[11].holidays.count == 0 {
+            segmentControl.isHidden = true
             activityIndicator.startAnimating()
             activityIndicator.backgroundColor = UIColor.white
             
@@ -62,8 +69,8 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
                 self.LoadAllHolidays()
                 self.activityIndicator.stopAnimating()
                 self.activityIndicator.isHidden = true
-                self.LoadingView.removeFromSuperview()
-                self.tableView.contentInset = UIEdgeInsets.init(top: 20.0, left: 0.0, bottom: 0.0, right: 0.0)
+                self.LoadingText.isHidden = true
+                self.segmentControl.isHidden = false
                 
                 self.tableView.reloadData()
             }
@@ -87,11 +94,45 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
         let searchString = searchController.searchBar.text!
         
         if searchString == "" {
-            filteredSections = sections
+            switch segmentControl.selectedSegmentIndex {
+            case 0:
+                filteredSections = sections
+                break
+            case 1:
+                filteredSections = GetCrossTypeHolidays(crossType: CrossType.black)
+                break
+            case 2:
+                filteredSections = GetCrossTypeHolidays(crossType: CrossType.blue)
+                break
+            case 3:
+                filteredSections = GetCrossTypeHolidays(crossType: CrossType.red)
+                break
+            default:
+                filteredSections = sections
+                break
+            }
         } else {
             var i = 0
             filteredSections.removeAll() // is mandatory to empty the filtered array
-            for section in sections {
+            var crossSelectedSections: [Section] = []
+            switch segmentControl.selectedSegmentIndex {
+            case 0:
+                crossSelectedSections = sections
+                break
+            case 1:
+                crossSelectedSections = GetCrossTypeHolidays(crossType: CrossType.black)
+                break
+            case 2:
+                crossSelectedSections = GetCrossTypeHolidays(crossType: CrossType.blue)
+                break
+            case 3:
+                crossSelectedSections = GetCrossTypeHolidays(crossType: CrossType.red)
+                break
+            default:
+                crossSelectedSections = sections
+                break
+            }
+            for section in crossSelectedSections {
                 //var filteredContent = section.holidays.filter { $0.holiday.range(of: searchString) != nil }
                 var filteredContent = [HolidayStr]()
                 highlightedSearchRanges[i].removeAll()
@@ -130,18 +171,10 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if searchController.isActive && searchController.searchBar.text != "" {
             if filteredSections[section].expanded {
                 return filteredSections[section].holidays.count
             } else {
                 return 0
-            }
-        } else {
-            if sections[section].expanded {
-                return sections[section].holidays.count
-            } else {
-                return 0
-            }
         }
     }
     
@@ -150,20 +183,11 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if searchController.isActive && searchController.searchBar.text != "" {
             if !filteredSections[indexPath.section].expanded {
                 return 0
             } else {
                 return UITableViewAutomaticDimension
             }
-        } else {
-            if !sections[indexPath.section].expanded {
-                return 0
-            } else {
-                return UITableViewAutomaticDimension
-            }
-        }
-        
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
@@ -173,8 +197,10 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         self.navigationItem.setRightBarButton(NotificationButton, animated: true)
+        //self.searchController.searchBar.sizeToFit()
         self.navigationItem.setLeftBarButton(TodayButton, animated: true)
-        self.searchController.searchBar.sizeToFit()
+        
+        self.SegmentControlChanged(self)
     }
     
     override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
@@ -201,21 +227,41 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
         return header
     }
     
+    
+    func GetCrossTypeHolidays(crossType: CrossType) -> [Section] {
+        var sectionCrossType: Section
+        var result: [Section] = []
+        for section in sections {
+            var resultHolidays: [HolidayStr] = []
+            for holiday in section.holidays {
+                for crossTypeX in holiday.crossTypes {
+                    if crossTypeX == crossType {
+                        resultHolidays.append(holiday)
+                        break
+                    }
+                }
+            }
+            sectionCrossType = section
+            sectionCrossType.holidays = resultHolidays
+            result.append(sectionCrossType)
+        }
+        
+        return result
+    }
+    
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let date: Date
         let cell = tableView.dequeueReusableCell(withIdentifier: "holidayCell") as! HolidayListTableViewCell
         //let holidayWithoutDate = viewController.RemoveDateFromHolidayString(holidayString: sections[indexPath.section].holidays[indexPath.row].holiday, date: date!)
         //let holiday =  viewController.GenerateAttributedStringHoliday(holidayString: holidayWithoutDate)
         let holidayWithoutDate: String!
-        if searchController.isActive && searchController.searchBar.text != "" {
             date = filteredSections[indexPath.section].holidays[indexPath.row].date
             holidayWithoutDate = viewController.RemoveDateFromHolidayString(holidayString: filteredSections[indexPath.section].holidays[indexPath.row].holiday, date: date)
-        } else {
-            date  =  sections[indexPath.section].holidays[indexPath.row].date
-            holidayWithoutDate = viewController.RemoveDateFromHolidayString(holidayString: sections[indexPath.section].holidays[indexPath.row].holiday, date: date)
-        }
+        
         
         let holiday = viewController.GenerateAttributedStringHoliday(holidayString: holidayWithoutDate)
+        
         if searchController.isActive && searchController.searchBar.text != "" {
             cell.holidayLabel.attributedText = highlightSearchedText(holiday: holiday , indexPath: indexPath)
         } else {
@@ -227,6 +273,10 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.selectedHoliday = filteredSections[indexPath.section].holidays[indexPath.row]
+    }
+    
     func highlightSearchedText(holiday: NSMutableAttributedString , indexPath : IndexPath) -> NSMutableAttributedString {
         holiday.addAttribute(NSBackgroundColorAttributeName, value: UIColor.yellow, range: holiday.string.nsRange(from: highlightedSearchRanges[indexPath.section][indexPath.row]))
         
@@ -234,11 +284,8 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
     }
 
     func toggleSection(header: ExpandableHeaderView, section: Int) {
-        if searchController.isActive && searchController.searchBar.text != "" {
-            filteredSections[section].expanded = !filteredSections[section].expanded
-        } else {
-            sections[section].expanded = !sections[section].expanded
-        }
+        sections[section].expanded = !sections[section].expanded
+        filteredSections[section].expanded = !filteredSections[section].expanded
         
         tableView.reloadSections(IndexSet(integersIn: section...11), with: .automatic)
     }
@@ -260,6 +307,8 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
         for i in 1 ..< 13 {
             LoadHolidays(monthNo: i)
         }
+        
+        filteredSections = sections
     }
     
     func LoadHolidays(monthNo: Int) {
@@ -280,7 +329,23 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
         
         while let holidayString:String? =  viewController.GetHolidayStringByDateString(dateString: dateString) {
             if holidayString != "" && date < nextMonthDate {
-                var holidayStr = HolidayStr(holiday: holidayString!, date: date)
+                var crossTypes: [CrossType] = []
+                if holidayHasRedCross(holiday: holidayString!) {
+                    crossTypes.append(CrossType.red)
+                }
+                if holidayHasBlueCross(holiday: holidayString!) {
+                    crossTypes.append(CrossType.blue)
+                }
+                if holidayHasBlackCross(holiday: holidayString!) {
+                            crossTypes.append(CrossType.black)
+                }
+                if crossTypes.count == 0 {
+                    crossTypes.append(CrossType.none)
+                }
+                
+                
+                
+                var holidayStr = HolidayStr(holiday: holidayString!, date: date , crossTypes: crossTypes)
                 sections[monthNo - 1].holidays.append(holidayStr)
                 date = Calendar.current.date(byAdding: dateComponent, to: date)!
                 dateString = viewController.ConvertDateToString(date: date)!
@@ -289,6 +354,139 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
             }
         }
     }
+    
+    func holidayHasRedCross(holiday: String) -> Bool {
+        var holidayVar = holiday
+        
+        while let crossRange = holidayVar.range(of: "†") {
+            var holidayVar2 = holidayVar
+            while let startTagRange = holidayVar2.range(of: "<r>") , let endTagRange = holidayVar2.range(of: "</r>") {
+                if (startTagRange != nil) && (endTagRange != nil) && (crossRange != nil) {
+                    if (startTagRange.upperBound) <= (crossRange.lowerBound) && (endTagRange.lowerBound) >= (crossRange.upperBound) {
+                        return true
+                    }
+                }
+                
+                holidayVar2.removeSubrange(startTagRange)
+                holidayVar2.removeSubrange(holidayVar2.range(of: "</r>")!)
+            }
+            
+            holidayVar.removeSubrange(crossRange)
+        }
+        
+        return false
+    }
+    
+    func holidayHasBlueCross(holiday: String) -> Bool {
+        var holidayVar = holiday
+        
+        while let crossRange = holidayVar.range(of: "†") {
+            var holidayVar2 = holidayVar
+            while let startTagRange = holidayVar2.range(of: "<a>") , let endTagRange = holidayVar2.range(of: "</a>") {
+                if (startTagRange != nil) && (endTagRange != nil) && (crossRange != nil) {
+                    if (startTagRange.upperBound) <= (crossRange.lowerBound) && (endTagRange.lowerBound) >= (crossRange.upperBound) {
+                        return true
+                    }
+                }
+                
+                holidayVar2.removeSubrange(startTagRange)
+                holidayVar2.removeSubrange(holidayVar2.range(of: "</a>")!)
+            }
+            
+            holidayVar.removeSubrange(crossRange)
+        }
+        
+        return false
+    }
+    
+    func holidayHasBlackCross(holiday: String) -> Bool {
+        var holidayVar = holiday
+        
+        while let startRedRange = holidayVar.range(of: "<r>"), let endRedRange = holidayVar.range(of: "</r>") {
+            holidayVar.removeSubrange(startRedRange.lowerBound..<endRedRange.upperBound)
+        }
+        
+        while let startBlueRange = holidayVar.range(of: "<a>") , let endBlueRange = holidayVar.range(of: "</a>") {
+            holidayVar.removeSubrange(startBlueRange.lowerBound..<endBlueRange.upperBound)
+        }
+        
+        if let crossRange = holidayVar.range(of: "†") {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    private func requestAuthorization(completionHandler: @escaping (_ success: Bool) -> ()) {
+        // Request Authorization
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (success, error) in
+            if let error = error {
+                print("Request Authorization Failed (\(error), \(error.localizedDescription))")
+            }
+            
+            completionHandler(success)
+        }
+    }
+    
+    func scheduleNotification(at date: Date) {
+        let calendar = Calendar(identifier: .gregorian)
+        var components = calendar.dateComponents(in: .current, from: date)
+        let newComponents = DateComponents(calendar: calendar, timeZone: .current, month: components.month, day: components.day, hour: components.hour, minute: components.minute! + 1)
+        
+        let trigger = UNCalendarNotificationTrigger(dateMatching: newComponents, repeats: false)
+        
+        let content = UNMutableNotificationContent()
+        content.title = "Notificare"
+        content.body = (selectedHoliday?.holiday)!
+        content.badge = UIApplication.shared.applicationIconBadgeNumber + 1 as NSNumber
+        content.sound = UNNotificationSound.default()
+        
+        formatter.dateFormat = "yyyy MM dd"
+        
+        let request = UNNotificationRequest(identifier: "holiday_" + formatter.string(from: (selectedHoliday?.date)!), content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request) {(error) in
+            if let error = error {
+                print("Uh oh! We had an error: \(error)")
+            }
+        }
+    }
+
+
+    
+    func SetNotification(date: Date) {
+        UNUserNotificationCenter.current().getNotificationSettings { (notificationSettings) in
+            switch notificationSettings.authorizationStatus {
+            case .notDetermined:
+                self.requestAuthorization(completionHandler: { (success) in
+                    guard success else {
+                        self.createAlert(title: "Alertă" , message: "Pentru a putea activa această funcționalitate ar trebui sa permiți aplicației Calendar Ortodox să trimită notificări. Pentru a face asta te rog du-te pe dispozitivul tău in Setări -> Calendar Ortodox -> Notificări și selectează ON la opțiunea Permite notificări.")
+                        return
+                    }
+                    
+                    // Schedule Local Notification
+                    self.scheduleNotification(at: Date()) //test
+                })
+            case .authorized:
+                // Schedule Local Notification
+                self.scheduleNotification(at: Date()) //test
+            case .denied:
+                self.createAlert(title: "Alertă" , message: "Pentru a putea activa această funcționalitate ar trebui sa permiți aplicației Calendar Ortodox să trimită notificări. Pentru a face asta te rog du-te pe dispozitivul tău in Setări -> Calendar Ortodox -> Notificări și selectează ON la opțiunea Permite notificări.")
+            }
+        }
+    }
+
+    
+    func createAlert(title: String , message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (action) in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+
     
     
     @IBAction func GoToCurrentDate(_ sender: Any) {
@@ -310,24 +508,38 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
         //get date
         if let indexPath = tableView.indexPathForSelectedRow {
             var date = sections[indexPath.section].holidays[indexPath.row].date
-            viewController.selectedHoliday = HolidayStr()
-            viewController.setSelectedHoliday(holiday: sections[indexPath.section].holidays[indexPath.row].holiday)
-            viewController.setSelectedDate(date: sections[indexPath.section].holidays[indexPath.row].date)
-            viewController.SetNotification(date: date!)
+            SetNotification(date: date!)
         } else {
             //alert user that a selection is needed
             createAlert(title: "Alertă" , message: "Pentru a putea seta o notificare este necesar să selectati o zi.")
         }
     }
     
-    func createAlert(title: String , message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+    
+    @IBAction func SegmentControlChanged(_ sender: Any) {
+        switch segmentControl.selectedSegmentIndex {
+        case 0:
+            filteredSections = sections
+            break
+        case 1:
+            filteredSections = GetCrossTypeHolidays(crossType: CrossType.black)
+            break
+        case 2:
+            filteredSections = GetCrossTypeHolidays(crossType: CrossType.blue)
+            break
+        case 3:
+            filteredSections = GetCrossTypeHolidays(crossType: CrossType.red)
+            break
+        default:
+            filteredSections = sections
+            break
+        }
         
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (action) in
-            alert.dismiss(animated: true, completion: nil)
-        }))
+        if self.searchController.isActive && self.searchController.searchBar.text != "" {
+            updateSearchResults(for: self.searchController)
+        }
         
-        self.present(alert, animated: true, completion: nil)
+        self.tableView.reloadData()
     }
     
     
