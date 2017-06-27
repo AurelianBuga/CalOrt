@@ -145,7 +145,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="AddInfoLabel" text="Add info Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qg6-aL-44A">
-                                                <rect key="frame" x="10" y="76" width="355" height="20.5"/>
+                                                <rect key="frame" x="10" y="76.5" width="355" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -220,7 +220,7 @@
             </objects>
             <point key="canvasLocation" x="2880.8000000000002" y="-234.33283358320841"/>
         </scene>
-        <!--Rugăciuni-->
+        <!--Utile-->
         <scene sceneID="vir-e8-Cvy">
             <objects>
                 <viewController id="vwo-Sq-VQQ" sceneMemberID="viewController">
@@ -233,13 +233,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Rugăciuni" id="9Ou-Yy-FcI"/>
+                    <navigationItem key="navigationItem" title="Utile" id="mwW-sY-vTh"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hhL-rX-0jm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1961" y="2176"/>
+            <point key="canvasLocation" x="2900" y="2175.562218890555"/>
         </scene>
-        <!--S-->
+        <!--Rugaciuni-->
         <scene sceneID="GbG-Dm-aMx">
             <objects>
                 <viewController id="IiP-De-YXP" sceneMemberID="viewController">
@@ -252,11 +252,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="S" id="V7u-mv-q4h"/>
+                    <navigationItem key="navigationItem" title="Rugaciuni" id="qd8-ik-J3C"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9D6-LQ-Ck4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1961" y="1414"/>
+            <point key="canvasLocation" x="2900" y="1413.6431784107947"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="ZjX-2w-CIr">
@@ -271,8 +271,8 @@
                     <connections>
                         <segue destination="sgI-oS-Crn" kind="relationship" relationship="viewControllers" id="QOZ-as-kYO"/>
                         <segue destination="XFH-tB-s7V" kind="relationship" relationship="viewControllers" id="yb5-hF-32d"/>
-                        <segue destination="IiP-De-YXP" kind="relationship" relationship="viewControllers" id="3lz-2e-Yod"/>
-                        <segue destination="vwo-Sq-VQQ" kind="relationship" relationship="viewControllers" id="EJ6-JV-ry5"/>
+                        <segue destination="sH6-YQ-6yG" kind="relationship" relationship="viewControllers" id="3lz-2e-Yod"/>
+                        <segue destination="nNu-ke-WAD" kind="relationship" relationship="viewControllers" id="EJ6-JV-ry5"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1NM-hP-vk7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -332,14 +332,14 @@
                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="66R-v6-R9j">
                                     <rect key="frame" x="111" y="12" width="20" height="20"/>
                                 </activityIndicatorView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Se incarcă..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z6a-G1-Y8G">
-                                    <rect key="frame" x="152" y="12" width="94" height="21"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Se incarcă..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z6a-G1-Y8G">
+                                    <rect key="frame" x="143" y="13" width="89" height="19.5"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="7t4-XY-84e">
-                                    <rect key="frame" x="36" y="7" width="303" height="29"/>
+                                    <rect key="frame" x="36" y="8" width="303" height="29"/>
                                     <segments>
                                         <segment title="Toate"/>
                                         <segment title="† Neagră"/>
@@ -353,13 +353,13 @@
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstAttribute="trailing" secondItem="Z6a-G1-Y8G" secondAttribute="trailing" constant="129" id="3Cq-zc-Nn7"/>
-                                <constraint firstItem="66R-v6-R9j" firstAttribute="leading" secondItem="RGf-cZ-u9E" secondAttribute="leading" constant="111" id="4si-7f-Z2Y"/>
-                                <constraint firstItem="Z6a-G1-Y8G" firstAttribute="centerY" secondItem="RGf-cZ-u9E" secondAttribute="centerY" id="ElW-tT-f9B"/>
                                 <constraint firstItem="7t4-XY-84e" firstAttribute="centerY" secondItem="RGf-cZ-u9E" secondAttribute="centerY" id="HPP-zs-Ov2"/>
                                 <constraint firstItem="7t4-XY-84e" firstAttribute="centerX" secondItem="RGf-cZ-u9E" secondAttribute="centerX" id="SDA-UQ-pd8"/>
+                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="7t4-XY-84e" secondAttribute="trailing" constant="15" id="U7I-Ot-gdm"/>
+                                <constraint firstItem="Z6a-G1-Y8G" firstAttribute="centerX" secondItem="RGf-cZ-u9E" secondAttribute="centerX" id="Vcf-18-P3r"/>
+                                <constraint firstItem="Z6a-G1-Y8G" firstAttribute="leading" secondItem="66R-v6-R9j" secondAttribute="trailing" constant="12" id="bEV-Jt-FaQ"/>
                                 <constraint firstItem="66R-v6-R9j" firstAttribute="centerY" secondItem="RGf-cZ-u9E" secondAttribute="centerY" id="cJD-bv-ECa"/>
-                                <constraint firstItem="Z6a-G1-Y8G" firstAttribute="leading" secondItem="66R-v6-R9j" secondAttribute="trailing" constant="21" id="zJ3-o5-IhE"/>
+                                <constraint firstItem="Z6a-G1-Y8G" firstAttribute="centerY" secondItem="RGf-cZ-u9E" secondAttribute="centerY" id="sUn-7V-ZGN"/>
                             </constraints>
                         </view>
                         <prototypes>
@@ -434,10 +434,50 @@
             </objects>
             <point key="canvasLocation" x="2880.8000000000002" y="494.30284857571218"/>
         </scene>
+        <!--Rugaciuni-->
+        <scene sceneID="Ers-I3-acJ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="sH6-YQ-6yG" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Rugaciuni" image="book" id="V7u-mv-q4h"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="LiG-Pn-flA">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="IiP-De-YXP" kind="relationship" relationship="rootViewController" id="xSk-bP-l0Z"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lHy-SF-PfI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1960.8" y="1413.6431784107947"/>
+        </scene>
+        <!--Utile-->
+        <scene sceneID="wVu-8G-ZVw">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nNu-ke-WAD" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Utile" image="cross" id="9Ou-Yy-FcI"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="FUu-rl-qVO">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="vwo-Sq-VQQ" kind="relationship" relationship="rootViewController" id="HEw-8k-tD9"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jHp-su-oll" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1960.8" y="2175.562218890555"/>
+        </scene>
     </scenes>
     <resources>
         <image name="bell" width="20" height="20"/>
+        <image name="book" width="30" height="30"/>
         <image name="calendar_icon_25_25" width="25" height="25"/>
+        <image name="cross" width="18" height="25"/>
         <image name="list_icon_25_25" width="25" height="25"/>
     </resources>
 </document>

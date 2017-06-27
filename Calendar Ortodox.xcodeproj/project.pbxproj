@@ -15,13 +15,14 @@
 		818BAFDD1EEC7963004486DE /* Calendar_OrtodoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818BAFDC1EEC7963004486DE /* Calendar_OrtodoxTests.swift */; };
 		818BAFE81EEC7963004486DE /* Calendar_OrtodoxUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818BAFE71EEC7963004486DE /* Calendar_OrtodoxUITests.swift */; };
 		818BAFF81EEC9A17004486DE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 818BAFF71EEC9A17004486DE /* Main.storyboard */; };
-		818BAFFE1EEC9AFD004486DE /* import_test.csv in Resources */ = {isa = PBXBuildFile; fileRef = 818BAFFD1EEC9AFD004486DE /* import_test.csv */; };
+		818BAFFE1EEC9AFD004486DE /* holidays.csv in Resources */ = {isa = PBXBuildFile; fileRef = 818BAFFD1EEC9AFD004486DE /* holidays.csv */; };
 		818BB0001EEC9B0F004486DE /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818BAFFF1EEC9B0F004486DE /* CustomCell.swift */; };
 		818BB0021EEC9B1E004486DE /* Holiday.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818BB0011EEC9B1E004486DE /* Holiday.swift */; };
 		818BB00D1EF327C8004486DE /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818BB00C1EF327C8004486DE /* Section.swift */; };
 		818BB00F1EF32A19004486DE /* ExpandableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818BB00E1EF32A19004486DE /* ExpandableHeaderView.swift */; };
 		818BB0111EF32E5C004486DE /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818BB0101EF32E5C004486DE /* TableViewController.swift */; };
 		818BB0131EF8F6B0004486DE /* HolidayListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818BB0121EF8F6B0004486DE /* HolidayListTableViewCell.swift */; };
+		818BB0151F019F0E004486DE /* prayers.csv in Resources */ = {isa = PBXBuildFile; fileRef = 818BB0141F019F0E004486DE /* prayers.csv */; };
 		A15A665EDBE8FD24D6586D3F /* Pods_Calendar_Ortodox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6769E2FA4CA8BADD2B46E640 /* Pods_Calendar_Ortodox.framework */; };
 		CAD3A82C1B31FE4C29575EBA /* Pods_Calendar_OrtodoxTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A85CE057AA1B47535A88399E /* Pods_Calendar_OrtodoxTests.framework */; };
 		EC61F2793F23B00104D3E974 /* Pods_Calendar_OrtodoxUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62D54A7CD4FB82218A0D051F /* Pods_Calendar_OrtodoxUITests.framework */; };
@@ -63,13 +64,14 @@
 		818BAFE71EEC7963004486DE /* Calendar_OrtodoxUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar_OrtodoxUITests.swift; sourceTree = "<group>"; };
 		818BAFE91EEC7963004486DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		818BAFF71EEC9A17004486DE /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		818BAFFD1EEC9AFD004486DE /* import_test.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = import_test.csv; sourceTree = "<group>"; };
+		818BAFFD1EEC9AFD004486DE /* holidays.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = holidays.csv; sourceTree = "<group>"; };
 		818BAFFF1EEC9B0F004486DE /* CustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		818BB0011EEC9B1E004486DE /* Holiday.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Holiday.swift; sourceTree = "<group>"; };
 		818BB00C1EF327C8004486DE /* Section.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		818BB00E1EF32A19004486DE /* ExpandableHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpandableHeaderView.swift; sourceTree = "<group>"; };
 		818BB0101EF32E5C004486DE /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		818BB0121EF8F6B0004486DE /* HolidayListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HolidayListTableViewCell.swift; sourceTree = "<group>"; };
+		818BB0141F019F0E004486DE /* prayers.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = prayers.csv; sourceTree = "<group>"; };
 		87249C2F53C614BCEA3672FB /* Pods-Calendar Ortodox.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Calendar Ortodox.release.xcconfig"; path = "Pods/Target Support Files/Pods-Calendar Ortodox/Pods-Calendar Ortodox.release.xcconfig"; sourceTree = "<group>"; };
 		A85CE057AA1B47535A88399E /* Pods_Calendar_OrtodoxTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Calendar_OrtodoxTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA659B129F0051D946FDCE96 /* Pods-Calendar OrtodoxUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Calendar OrtodoxUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Calendar OrtodoxUITests/Pods-Calendar OrtodoxUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -149,10 +151,11 @@
 				818BAFFF1EEC9B0F004486DE /* CustomCell.swift */,
 				818BAFD31EEC7963004486DE /* Info.plist */,
 				818BAFCB1EEC7963004486DE /* Calendar_Ortodox.xcdatamodeld */,
-				818BAFFD1EEC9AFD004486DE /* import_test.csv */,
+				818BAFFD1EEC9AFD004486DE /* holidays.csv */,
 				818BB0011EEC9B1E004486DE /* Holiday.swift */,
 				818BB0101EF32E5C004486DE /* TableViewController.swift */,
 				818BB0121EF8F6B0004486DE /* HolidayListTableViewCell.swift */,
+				818BB0141F019F0E004486DE /* prayers.csv */,
 			);
 			path = "Calendar Ortodox";
 			sourceTree = "<group>";
@@ -320,9 +323,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				818BAFF81EEC9A17004486DE /* Main.storyboard in Resources */,
+				818BB0151F019F0E004486DE /* prayers.csv in Resources */,
 				818BAFD21EEC7963004486DE /* LaunchScreen.storyboard in Resources */,
 				818BAFCF1EEC7963004486DE /* Assets.xcassets in Resources */,
-				818BAFFE1EEC9AFD004486DE /* import_test.csv in Resources */,
+				818BAFFE1EEC9AFD004486DE /* holidays.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -28,28 +28,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    func parseCSV (contentsOfURL: URL, encoding: String.Encoding, error: NSErrorPointer) -> [(date:String , holiday:String)]? {
+    func parseCSV (contentsOfURL: URL, encoding: String.Encoding, error: NSErrorPointer) -> [[String]]? {
         // Load the CSV file and parse it
         let delimiter = ","
-        var holidays:[(date:String, holiday:String)]?
+        
         var endcodingVar = encoding
+        var values:[[String]] = [[]]
         do{
             let content = try String(contentsOf: contentsOfURL, usedEncoding: &endcodingVar)
-            holidays = []
             var lines:[String] = []
             content.enumerateLines { line, _ in
                 lines.append(line)
             }
-            
+            var i = 0
             for line in lines {
-                var values:[String] = []
                 if line != "" {
+                    values.append([])
                     // For a line with double quotes
                     // we use NSScanner to perform the parsing
                     if line.range(of: "\"") != nil {
                         var textToScan:String = line
                         var value:NSString?
                         var textScanner:Scanner = Scanner(string: textToScan)
+                        var addedText = false
                         while textScanner.string != "" {
                             
                             if (textScanner.string as NSString).substring(to: 1) == "\"" {
@@ -61,7 +62,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             }
                             
                             // Store the value into the values array
-                            values.append(value as! String)
+                            values[i].append(value as! String)
+                            addedText = true
                             
                             // Retrieve the unscanned remainder of the string
                             var length = textScanner.string.characters.count
@@ -73,15 +75,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             textScanner = Scanner(string: textToScan)
                         }
                         
+                        if addedText == false {
+                            values.remove(at: i)
+                            i -= 1
+                        }
+                        
                         // For a line without double quotes, we can simply separate the string
                         // by using the delimiter (e.g. comma)
                     } else  {
-                        values = line.components(separatedBy: delimiter)
+                        values[i] = line.components(separatedBy: delimiter)
                     }
                     
+                    i += 1
+                    
                     // Put the values into the tuple and add it to the items array
-                    let Holiday = (date: values[0], holiday: values[1])
-                    holidays?.append(Holiday)
+                    //let Holiday = (date: values[0], holiday: values[1])
+                    //holidays?.append(Holiday)
                 }
             }
             
@@ -90,7 +99,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         
-        return holidays
+        return values
     }
     
     func removeData () {
@@ -119,33 +128,53 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
     }
     
-    func preloadData () {
+    func ConvertValuesToHolidays(values: [[String]]) -> [(date:String, holiday:String)]? {
+        var holidays:[(date:String, holiday:String)]?
+        holidays = []
+        for value in values {
+            if value.count != 0 {
+                let Holiday = (date: value[0], holiday: value[1])
+                holidays?.append(Holiday)
+            }
+            
+        }
+        
+        return holidays
+    }
+    
+    func preloadData() {
+        preloadHolidays()
+    }
+    
+    func preloadHolidays () {
         // Retrieve data from the source file
         do{
-            if let contentsOfURL = Bundle.main.url(forResource: "import_test", withExtension: "csv") {
+            if let contentsOfURL = Bundle.main.url(forResource: "holidays", withExtension: "csv") {
                 
                 // Remove all the menu items before preloading
                 removeData()
                 
                 var error:NSError?
-                if let items = parseCSV(contentsOfURL: contentsOfURL, encoding: String.Encoding.utf8, error: &error) {
-                    // Preload the menu items
-                    let managedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-                    if managedObjectContext != nil {
-                        for item in items {
-                            let holiday = NSEntityDescription.insertNewObject(forEntityName: "Holidays", into: managedObjectContext)
-                            
-                            // 3
-                            holiday.setValue(item.date, forKeyPath: "date")
-                            holiday.setValue(item.holiday, forKeyPath: "holiday")
-                            
-                            // 4
-                            do {
-                                try managedObjectContext.save()
-                                //holiday.append(holiday)
-                                print("Saved")
-                            } catch let error as NSError {
-                                print("Could not save. \(error), \(error.userInfo)")
+                if let values = parseCSV(contentsOfURL: contentsOfURL, encoding: String.Encoding.utf8, error: &error) {
+                    if let items = ConvertValuesToHolidays(values: values) {
+                        // Preload the menu items
+                        let managedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+                        if managedObjectContext != nil {
+                            for item in items {
+                                let holiday = NSEntityDescription.insertNewObject(forEntityName: "Holidays", into: managedObjectContext)
+                                
+                                // 3
+                                holiday.setValue(item.date, forKeyPath: "date")
+                                holiday.setValue(item.holiday, forKeyPath: "holiday")
+                                
+                                // 4
+                                do {
+                                    try managedObjectContext.save()
+                                    //holiday.append(holiday)
+                                    print("Saved")
+                                } catch let error as NSError {
+                                    print("Could not save. \(error), \(error.userInfo)")
+                                }
                             }
                         }
                     }
@@ -155,6 +184,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }catch {
             print(error.localizedDescription)
         }
+    }
+    
+    func preloadPrayers() {
+        //TDO
     }
     
     
