@@ -102,7 +102,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return values
     }
     
-    func removeData () {
+    func removeHolidays () {
         do{
             // Remove the existing items
             let managedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -152,7 +152,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if let contentsOfURL = Bundle.main.url(forResource: "holidays", withExtension: "csv") {
                 
                 // Remove all the menu items before preloading
-                removeData()
+                removeHolidays()
                 
                 var error:NSError?
                 if let values = parseCSV(contentsOfURL: contentsOfURL, encoding: String.Encoding.utf8, error: &error) {

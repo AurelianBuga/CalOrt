@@ -495,19 +495,28 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
         let currentMonth = calendar.component(.month, from: currentDate)
         let currentDay = calendar.component(.day, from: currentDate)
         
-        if !sections[currentMonth - 1].expanded {
+        segmentControl.selectedSegmentIndex = 0
+        SegmentControlChanged(self)
+        
+        if !filteredSections[currentMonth - 1].expanded {
             toggleSection(header: ExpandableHeaderView(), section: currentMonth - 1)
         }
         
-        let indexPath = IndexPath(row: currentDay, section: currentMonth - 1)
-        tableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableViewScrollPosition.middle)
+        let when = DispatchTime.now() + 0.3 // select the cell with a delay of 0.3 seconds
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            let indexPath = IndexPath(row: currentDay, section: currentMonth - 1)
+            self.tableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.middle, animated: true)
+            self.tableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableViewScrollPosition.middle)
+            self.tableView(self.tableView, didSelectRowAt: indexPath)
+        }
+        
     }
     
     
     @IBAction func SetNotification(_ sender: Any) {
         //get date
         if let indexPath = tableView.indexPathForSelectedRow {
-            var date = sections[indexPath.section].holidays[indexPath.row].date
+            var date = filteredSections[indexPath.section].holidays[indexPath.row].date
             SetNotification(date: date!)
         } else {
             //alert user that a selection is needed
