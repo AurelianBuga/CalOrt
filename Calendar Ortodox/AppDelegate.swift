@@ -48,8 +48,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     // we use NSScanner to perform the parsing
                     if line.range(of: "\"") != nil {
                         var textToScan:String = line
-                        var value:NSString?
-                        var textScanner:Scanner = Scanner(string: textToScan)
                         var value:String?
                         //var textScanner:Scanner = Scanner(string: textToScan)
                         var addedText = false
