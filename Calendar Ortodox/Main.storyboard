@@ -8,6 +8,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -239,24 +240,149 @@
             </objects>
             <point key="canvasLocation" x="2900" y="2175.562218890555"/>
         </scene>
-        <!--Rugaciuni-->
-        <scene sceneID="GbG-Dm-aMx">
+        <!--Rugăciuni-->
+        <scene sceneID="Jce-p9-sqv">
             <objects>
-                <viewController id="IiP-De-YXP" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="jbw-BA-fNp"/>
-                        <viewControllerLayoutGuide type="bottom" id="2NN-NK-HG1"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Kwm-fO-URS">
+                <tableViewController id="ZOf-Dd-0Na" customClass="PrayersTableViewController" customModule="Calendar_Ortodox" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="65V-rr-N7v">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Rugaciuni" id="qd8-ik-J3C"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="9D6-LQ-Ck4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PrayerCell" textLabel="3Yn-ze-Blg" style="IBUITableViewCellStyleDefault" id="r0A-hg-YZO">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="r0A-hg-YZO" id="IBV-Ke-ACF">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3Yn-ze-Blg">
+                                            <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="ZOf-Dd-0Na" id="dDu-JT-r9X"/>
+                            <outlet property="delegate" destination="ZOf-Dd-0Na" id="LIR-ol-fTM"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Rugăciuni" id="vEn-4O-iKU"/>
+                    <connections>
+                        <segue destination="jKX-Ef-hkG" kind="show" identifier="prayerSegue" id="7w1-Xz-Mm4"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ceA-md-utF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2900" y="1413.6431784107947"/>
+            <point key="canvasLocation" x="2900" y="1414"/>
+        </scene>
+        <!--Prayer View Controller-->
+        <scene sceneID="a8t-dm-cHs">
+            <objects>
+                <viewController id="jKX-Ef-hkG" customClass="PrayerViewController" customModule="Calendar_Ortodox" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jbI-V2-u8S"/>
+                        <viewControllerLayoutGuide type="bottom" id="9zv-oW-r7I"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="QHR-Uh-Twg">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LRS-Rz-dPg">
+                                <rect key="frame" x="0.0" y="64" width="375" height="559"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p4B-hU-MSS">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R6n-pz-8yO">
+                                                <rect key="frame" x="160" y="10" width="54" height="26.5"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="text" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="69s-FA-WMT">
+                                                <rect key="frame" x="15" y="56.5" width="345" height="18"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="69s-FA-WMT" firstAttribute="leading" secondItem="p4B-hU-MSS" secondAttribute="leading" constant="15" id="7TB-wp-W3v"/>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="R6n-pz-8yO" secondAttribute="trailing" constant="20" id="9Bm-Pl-XwV"/>
+                                            <constraint firstItem="69s-FA-WMT" firstAttribute="top" secondItem="R6n-pz-8yO" secondAttribute="bottom" constant="20" id="HQR-Ia-8hn"/>
+                                            <constraint firstAttribute="trailing" secondItem="69s-FA-WMT" secondAttribute="trailing" constant="15" id="bhe-GQ-hx8"/>
+                                            <constraint firstItem="R6n-pz-8yO" firstAttribute="centerX" secondItem="p4B-hU-MSS" secondAttribute="centerX" id="hoC-To-9rZ"/>
+                                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="69s-FA-WMT" secondAttribute="bottom" constant="20" symbolic="YES" id="jRv-UC-4Bc"/>
+                                            <constraint firstItem="R6n-pz-8yO" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="p4B-hU-MSS" secondAttribute="leading" constant="20" id="yKe-Ea-ZcA"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="p4B-hU-MSS" firstAttribute="leading" secondItem="LRS-Rz-dPg" secondAttribute="leading" id="B8g-62-2hX"/>
+                                    <constraint firstItem="p4B-hU-MSS" firstAttribute="top" secondItem="LRS-Rz-dPg" secondAttribute="top" id="PIZ-bU-Eir"/>
+                                    <constraint firstAttribute="bottom" secondItem="p4B-hU-MSS" secondAttribute="bottom" id="Xoz-1M-rSe"/>
+                                    <constraint firstItem="R6n-pz-8yO" firstAttribute="top" secondItem="LRS-Rz-dPg" secondAttribute="top" constant="10" id="bBC-0O-8JK"/>
+                                    <constraint firstAttribute="trailing" secondItem="p4B-hU-MSS" secondAttribute="trailing" id="sVA-7z-tY5"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="LRS-Rz-dPg" secondAttribute="trailing" id="1MR-Zv-swq"/>
+                            <constraint firstItem="LRS-Rz-dPg" firstAttribute="leading" secondItem="QHR-Uh-Twg" secondAttribute="leading" id="UuP-ed-VMo"/>
+                            <constraint firstItem="LRS-Rz-dPg" firstAttribute="top" secondItem="jbI-V2-u8S" secondAttribute="bottom" id="VCm-Uw-tKD"/>
+                            <constraint firstItem="9zv-oW-r7I" firstAttribute="top" secondItem="LRS-Rz-dPg" secondAttribute="bottom" id="bHa-LQ-L49"/>
+                            <constraint firstItem="p4B-hU-MSS" firstAttribute="width" secondItem="QHR-Uh-Twg" secondAttribute="width" id="rWx-fU-KSg"/>
+                            <constraint firstItem="p4B-hU-MSS" firstAttribute="height" secondItem="QHR-Uh-Twg" secondAttribute="height" priority="250" id="uaK-ds-ilu"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="hKB-q9-Jcl">
+                        <rightBarButtonItems>
+                            <barButtonItem image="zoom_out" id="i02-27-hm3">
+                                <connections>
+                                    <action selector="ZoomOut:" destination="jKX-Ef-hkG" id="fkL-YK-eSk"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="zoom_in" id="moh-i9-iu5">
+                                <connections>
+                                    <action selector="ZoomIn:" destination="jKX-Ef-hkG" id="bDx-W9-FVW"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="BodyLabel" destination="69s-FA-WMT" id="V72-hg-mVI"/>
+                        <outlet property="TitleLabel" destination="R6n-pz-8yO" id="vKv-Ih-FwZ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ufS-BJ-xiN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4018" y="1414"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="V5x-SL-Haf">
+            <objects>
+                <navigationController id="z6h-3e-QWl" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="9pH-Da-HMw">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="jKX-Ef-hkG" kind="relationship" relationship="rootViewController" id="2Y5-ut-Rix"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2ko-cy-Xqp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5100" y="1414"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="ZjX-2w-CIr">
@@ -434,11 +560,11 @@
             </objects>
             <point key="canvasLocation" x="2880.8000000000002" y="494.30284857571218"/>
         </scene>
-        <!--Rugaciuni-->
+        <!--Rugăciuni-->
         <scene sceneID="Ers-I3-acJ">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="sH6-YQ-6yG" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Rugaciuni" image="book" id="V7u-mv-q4h"/>
+                    <tabBarItem key="tabBarItem" title="Rugăciuni" image="book" id="V7u-mv-q4h"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="LiG-Pn-flA">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -446,7 +572,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="IiP-De-YXP" kind="relationship" relationship="rootViewController" id="xSk-bP-l0Z"/>
+                        <segue destination="ZOf-Dd-0Na" kind="relationship" relationship="rootViewController" id="41w-va-maX"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lHy-SF-PfI" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -479,5 +605,10 @@
         <image name="calendar_icon_25_25" width="25" height="25"/>
         <image name="cross" width="18" height="25"/>
         <image name="list_icon_25_25" width="25" height="25"/>
+        <image name="zoom_in" width="25" height="25"/>
+        <image name="zoom_out" width="25" height="25"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="7w1-Xz-Mm4"/>
+    </inferredMetricsTieBreakers>
 </document>

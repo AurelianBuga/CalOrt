@@ -50,29 +50,53 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         var textToScan:String = line
                         var value:NSString?
                         var textScanner:Scanner = Scanner(string: textToScan)
+                        var value:String?
+                        //var textScanner:Scanner = Scanner(string: textToScan)
                         var addedText = false
-                        while textScanner.string != "" {
+                        
+                        
+                        while textToScan != "" {
                             
-                            if (textScanner.string as NSString).substring(to: 1) == "\"" {
-                                textScanner.scanLocation += 1
-                                textScanner.scanUpTo("\"", into: &value)
-                                textScanner.scanLocation += 1
+                            if textToScan.range(of: "\"")?.lowerBound == textToScan.startIndex {
+                                var endRange:Range<String.Index>?
+                                var startRange:Range<String.Index>?
+                                
+                                if textToScan.range(of: "\",\"") != nil {
+                                    endRange = textToScan.range(of: "\",\"")
+                                    startRange = textToScan.range(of: "\"")
+                                        value = textToScan.substring(with: (startRange?.upperBound)!..<(endRange?.lowerBound)!)
+                                        values[i].append(value as! String)
+                                        addedText = true
+                                        
+                                        textToScan.removeSubrange((startRange?.lowerBound)!..<( textToScan.index((endRange?.upperBound)!, offsetBy: -1)))
+                                } else {
+                                    endRange =  textToScan.range(of: "\"", options: String.CompareOptions.backwards, range: nil, locale: nil)
+                                    startRange = textToScan.range(of: "\"")
+                                        value = textToScan.substring(with: (startRange?.upperBound)!..<(endRange?.lowerBound)!)
+                                        values[i].append(value as! String)
+                                        addedText = true
+                                        
+                                        textToScan.removeSubrange((startRange?.lowerBound)!..<(endRange?.upperBound)!)
+                                }
+                                
+                                
                             } else {
-                                textScanner.scanUpTo(delimiter, into: &value)
+                                var delimiterRange = textToScan.range(of: ",")
+                                value = textToScan.substring(with: textToScan.startIndex..<(delimiterRange?.lowerBound)!)
+                                values[i].append(value as! String)
+                                addedText = true
+                                
+                                textToScan.removeSubrange((textToScan.startIndex...(delimiterRange?.lowerBound)!))
                             }
                             
-                            // Store the value into the values array
-                            values[i].append(value as! String)
-                            addedText = true
-                            
                             // Retrieve the unscanned remainder of the string
-                            var length = textScanner.string.characters.count
+                            /*var length = textScanner.string.characters.count
                             if textScanner.scanLocation < textScanner.string.characters.count {
                                 textToScan = (textScanner.string as NSString).substring(from: textScanner.scanLocation + 1)
                             } else {
                                 textToScan = ""
                             }
-                            textScanner = Scanner(string: textToScan)
+                            textScanner = Scanner(string: textToScan)*/
                         }
                         
                         if addedText == false {
@@ -102,23 +126,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return values
     }
     
-    func removeHolidays () {
+    func removeElements (entityName: String) {
         do{
             // Remove the existing items
             let managedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
             if managedObjectContext != nil {
-                let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Holidays")
+                let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
                 request.returnsObjectsAsFaults = false
                 var e: NSError?
-                let holidays  = try managedObjectContext.fetch(request)
+                let elements  = try managedObjectContext.fetch(request)
                 
                 if e != nil {
                     //println("Failed to retrieve record: \(e!.localizedDescription)")
                     
                 } else {
                     
-                    for holiday in holidays as! [NSManagedObject] {
-                        managedObjectContext.delete(holiday )
+                    for element in elements as! [NSManagedObject] {
+                        managedObjectContext.delete(element )
                     }
                 }
             }
@@ -142,8 +166,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return holidays
     }
     
+    func ConvertValuesToPrayers(values: [[String]]) -> [(name:String , body:String)]? {
+        var prayers:[(name:String , body:String)]?
+        prayers = []
+        for value in values {
+            if value.count != 0 {
+                let Prayer = (name: value[0] , body: value[1])
+                prayers?.append(Prayer)
+            }
+        }
+        
+        return prayers
+    }
+    
     func preloadData() {
         preloadHolidays()
+        preloadPrayers()
     }
     
     func preloadHolidays () {
@@ -152,7 +190,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if let contentsOfURL = Bundle.main.url(forResource: "holidays", withExtension: "csv") {
                 
                 // Remove all the menu items before preloading
-                removeHolidays()
+                removeElements(entityName: "Holidays")
                 
                 var error:NSError?
                 if let values = parseCSV(contentsOfURL: contentsOfURL, encoding: String.Encoding.utf8, error: &error) {
@@ -187,7 +225,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func preloadPrayers() {
-        //TDO
+        // Retrieve data from the source file
+        do{
+            if let contentsOfURL = Bundle.main.url(forResource: "prayers", withExtension: "csv") {
+                
+                // Remove all the menu items before preloading
+                removeElements(entityName: "Prayers")
+                
+                var error:NSError?
+                if let values = parseCSV(contentsOfURL: contentsOfURL, encoding: String.Encoding.utf8, error: &error) {
+                    if let items = ConvertValuesToPrayers(values: values) {
+                        // Preload the menu items
+                        let managedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+                        if managedObjectContext != nil {
+                            for item in items {
+                                let prayer = NSEntityDescription.insertNewObject(forEntityName: "Prayers", into: managedObjectContext)
+                                
+                                // 3
+                                prayer.setValue(item.name, forKeyPath: "name")
+                                prayer.setValue(item.body, forKeyPath: "body")
+                                
+                                // 4
+                                do {
+                                    try managedObjectContext.save()
+                                    //holiday.append(holiday)
+                                    print("Saved")
+                                } catch let error as NSError {
+                                    print("Could not save. \(error), \(error.userInfo)")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+        }catch {
+            print(error.localizedDescription)
+        }
     }
     
     

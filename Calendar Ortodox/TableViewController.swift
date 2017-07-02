@@ -305,7 +305,7 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
     
     func LoadAllHolidays() {
         for i in 1 ..< 13 {
-            LoadHolidays(monthNo: i)
+            self.LoadHolidays(monthNo: i)
         }
         
         filteredSections = sections
