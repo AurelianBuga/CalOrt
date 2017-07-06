@@ -8,8 +8,13 @@
         <attribute name="body" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="UsefulInfos" representedClassName="UsefulInfos" syncable="YES" codeGenerationType="class">
+        <attribute name="category" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <elements>
         <element name="Holidays" positionX="-54" positionY="-9" width="128" height="75"/>
         <element name="Prayers" positionX="-36" positionY="27" width="128" height="73"/>
+        <element name="UsefulInfos" positionX="-45" positionY="27" width="128" height="75"/>
     </elements>
 </model>

@@ -6,6 +6,7 @@ target 'Calendar Ortodox' do
   use_frameworks!
 
   pod 'JTAppleCalendar', '~> 7.0'
+  pod 'Google-Mobile-Ads-SDK'
 
   # Pods for Calendar Ortodox
 

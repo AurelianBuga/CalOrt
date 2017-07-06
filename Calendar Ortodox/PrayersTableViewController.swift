@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import GoogleMobileAds
 
 struct PrayerStr {
     var title: String!
@@ -19,11 +20,12 @@ struct PrayerStr {
     }
 }
 
-class PrayersTableViewController: UITableViewController {
+class PrayersTableViewController: UITableViewController , GADBannerViewDelegate {
     
     var prayers: [PrayerStr]!
     var selectedPrayer: PrayerStr!
     
+    @IBOutlet weak var Banner: GADBannerView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +37,14 @@ class PrayersTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        //request ad
+        let request = GADRequest()
+        request.testDevices = [kGADSimulatorID]
+        
+        Banner.adUnitID = "ca-app-pub-3495703042329721/6845014697"
+        Banner.rootViewController = self
+        Banner.load(request)
     }
 
     override func didReceiveMemoryWarning() {

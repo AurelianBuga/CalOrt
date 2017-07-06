@@ -8,9 +8,12 @@
 
 import UIKit
 import UserNotifications
+import GoogleMobileAds
 
 class TableViewController: UITableViewController , ExpandableHeaderViewDelegate , UISearchResultsUpdating , UISearchBarDelegate {
-
+    var adsToLoad = [GADNativeExpressAdView]()
+    let adViewHeight = CGFloat(135)
+    let adViewWidth = CGFloat(370)
     
     @IBOutlet var holidaysTableView: UITableView!
     @IBOutlet var TodayButton: UIBarButtonItem!
@@ -225,6 +228,11 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
         header.customInit(title: sections[section].month, section: section, delegate: self)
         
         return header
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.font = UIFont.boldSystemFont(ofSize: 17)
     }
     
     

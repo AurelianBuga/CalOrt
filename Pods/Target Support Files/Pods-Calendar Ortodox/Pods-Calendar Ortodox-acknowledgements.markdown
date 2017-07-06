@@ -1,6 +1,10 @@
 # Acknowledgements
 This application makes use of the following third party libraries:
 
+## Google-Mobile-Ads-SDK
+
+Copyright 2017 Google
+
 ## JTAppleCalendar
 
 Copyright (c) 2016 JayT <patchthecode@gmail.com>

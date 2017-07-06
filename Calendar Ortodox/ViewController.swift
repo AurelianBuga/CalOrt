@@ -10,8 +10,9 @@ import UIKit
 import JTAppleCalendar
 import CoreData
 import UserNotifications
+import GoogleMobileAds
 
-class ViewController: UIViewController {
+class ViewController: UIViewController , GADBannerViewDelegate {
     
     let formatter = DateFormatter()
     
@@ -20,6 +21,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var HolidayLabel: UILabel!
     @IBOutlet weak var AddInfoLabel: UILabel!
     @IBOutlet weak var DateLabel: UILabel!
+    
+    @IBOutlet weak var Banner: GADBannerView!
     
     var holidays: [Holiday] = []
     
@@ -37,6 +40,14 @@ class ViewController: UIViewController {
         // Configure User Notification Center
         UNUserNotificationCenter.current().delegate = self
         selectedHoliday = HolidayStr()
+        
+        //request ad
+        let request = GADRequest()
+        request.testDevices = [kGADSimulatorID]
+        
+        Banner.adUnitID = "ca-app-pub-3495703042329721/6845014697"
+        Banner.rootViewController = self
+        Banner.load(request)
     }
     
     

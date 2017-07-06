@@ -177,9 +177,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return prayers
     }
     
+    func ConvertValuesToUsefulInfos(values: [[String]]) -> [(category: String , text:String)]? {
+        var usefulInfos:[(category:String , text:String)]?
+        usefulInfos = []
+        for value in values {
+            if value.count != 0 {
+                let UsefulInfo = (category: value[0] , text: value[1])
+                usefulInfos?.append(UsefulInfo)
+            }
+        }
+        
+        return usefulInfos
+    }
+    
     func preloadData() {
         preloadHolidays()
         preloadPrayers()
+        preloadUsefulInfo()
     }
     
     func preloadHolidays () {
@@ -207,7 +221,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                 do {
                                     try managedObjectContext.save()
                                     //holiday.append(holiday)
-                                    print("Saved")
                                 } catch let error as NSError {
                                     print("Could not save. \(error), \(error.userInfo)")
                                 }
@@ -247,7 +260,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                 do {
                                     try managedObjectContext.save()
                                     //holiday.append(holiday)
-                                    print("Saved")
+                                } catch let error as NSError {
+                                    print("Could not save. \(error), \(error.userInfo)")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+        }catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func preloadUsefulInfo() {
+        // Retrieve data from the source file
+        do{
+            if let contentsOfURL = Bundle.main.url(forResource: "usefulInfos", withExtension: "csv") {
+                
+                // Remove all the menu items before preloading
+                removeElements(entityName: "UsefulInfos")
+                
+                var error:NSError?
+                if let values = parseCSV(contentsOfURL: contentsOfURL, encoding: String.Encoding.utf8, error: &error) {
+                    if let items = ConvertValuesToUsefulInfos(values: values) {
+                        // Preload the menu items
+                        let managedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+                        if managedObjectContext != nil {
+                            for item in items {
+                                let prayer = NSEntityDescription.insertNewObject(forEntityName: "UsefulInfos", into: managedObjectContext)
+                                
+                                // 3
+                                prayer.setValue(item.category, forKeyPath: "category")
+                                prayer.setValue(item.text, forKeyPath: "text")
+                                
+                                // 4
+                                do {
+                                    try managedObjectContext.save()
+                                    //holiday.append(holiday)
                                 } catch let error as NSError {
                                     print("Could not save. \(error), \(error.userInfo)")
                                 }
