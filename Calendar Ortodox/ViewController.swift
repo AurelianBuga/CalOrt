@@ -30,6 +30,11 @@ class ViewController: UIViewController , GADBannerViewDelegate {
     let currentMonthColor = UIColor.black
     let outsideMonthColor = UIColor(colorWithHexValue: 0xd8d8d8)
     
+    let startingDateString = "2017 01 01"
+    let endingDateString = "2017 12 31"
+    var startingDate:Date?
+    var endingDate:Date?
+    
     var selectedHoliday:HolidayStr?
     
     
@@ -612,7 +617,12 @@ class ViewController: UIViewController , GADBannerViewDelegate {
     
     @IBAction func SetNotificationButtonClick(_ sender: Any) {
         var date = (selectedHoliday?.date)!
-        SetNotification(date: date)
+        if date < Date() {
+            self.createAlert(title: "Alertă" , message: "Nu se poate seta o notificare pentru ziua selectată deoarece această zi a trecut.")
+        } else {
+            SetNotification(date: date)
+        }
+        
     }
     
     private func requestAuthorization(completionHandler: @escaping (_ success: Bool) -> ()) {
@@ -716,10 +726,10 @@ extension ViewController: JTAppleCalendarViewDataSource {
         formatter.timeZone = Calendar.current.timeZone
         formatter.locale = Calendar.current.locale
         
-        let stDate = formatter.date(from: "2017 01 01")!
-        let enDate = formatter.date(from: "2017 12 31")!
+        startingDate = formatter.date(from: startingDateString)!
+        endingDate = formatter.date(from: endingDateString)!
         
-        let parameters = ConfigurationParameters(startDate: stDate, endDate: enDate, numberOfRows: 6, calendar: nil, generateInDates: nil, generateOutDates: nil, firstDayOfWeek: .monday, hasStrictBoundaries: nil)
+        let parameters = ConfigurationParameters(startDate: startingDate!, endDate: endingDate!, numberOfRows: 6, calendar: nil, generateInDates: nil, generateOutDates: nil, firstDayOfWeek: .monday, hasStrictBoundaries: nil)
         return parameters
     }
 }
@@ -736,19 +746,21 @@ extension ViewController: JTAppleCalendarViewDelegate {
     }
     
     func calendar(_ calendar: JTAppleCalendarView, didSelectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
-        handleCellSelected(view: cell, cellState: cellState)
-        handleCellTextColor(view: cell, cellState: cellState)
-        
-        setSelectedDate(date: date)
-        DisplayDate(date: date)
-        DisplayHoliday(date: cellState.date)
-        
-        //scroll to next/prev month if selected date is not from this month
-        if cellState.dateBelongsTo == .followingMonthWithinBoundary {
-            setCurrentDate(date: date)
-        } else
-            if cellState.dateBelongsTo == .previousMonthWithinBoundary {
+        if date >= startingDate! && date <= endingDate! {
+            handleCellSelected(view: cell, cellState: cellState)
+            handleCellTextColor(view: cell, cellState: cellState)
+            
+            setSelectedDate(date: date)
+            DisplayDate(date: date)
+            DisplayHoliday(date: cellState.date)
+            
+            //scroll to next/prev month if selected date is not from this month
+            if cellState.dateBelongsTo == .followingMonthWithinBoundary {
                 setCurrentDate(date: date)
+            } else
+                if cellState.dateBelongsTo == .previousMonthWithinBoundary {
+                    setCurrentDate(date: date)
+            }
         }
     }
     
