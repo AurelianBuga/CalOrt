@@ -12,7 +12,11 @@ import CoreData
 import UserNotifications
 import GoogleMobileAds
 
-class ViewController: UIViewController , GADBannerViewDelegate {
+protocol PopupDelegate {
+    func SetDateForNotification(date: Date)
+}
+
+class ViewController: UIViewController , GADBannerViewDelegate , PopupDelegate {
     
     let formatter = DateFormatter()
     
@@ -36,7 +40,7 @@ class ViewController: UIViewController , GADBannerViewDelegate {
     var endingDate:Date?
     
     var selectedHoliday:HolidayStr?
-    
+    var selectedCustomDate: Date?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,6 +57,11 @@ class ViewController: UIViewController , GADBannerViewDelegate {
         Banner.adUnitID = "ca-app-pub-3495703042329721/6845014697"
         Banner.rootViewController = self
         Banner.load(request)
+    }
+    
+    func SetDateForNotification(date: Date) {
+        selectedCustomDate = date
+        SetNotificationButtonClick(self)
     }
     
     
@@ -149,7 +158,7 @@ class ViewController: UIViewController , GADBannerViewDelegate {
             translatedMonth = "Decembrie"
             break
         default:
-            translatedMonth = month
+            translatedMonth = month.capitalizingFirstLetter()
             break
         }
         
@@ -616,11 +625,11 @@ class ViewController: UIViewController , GADBannerViewDelegate {
     
     
     @IBAction func SetNotificationButtonClick(_ sender: Any) {
-        var date = (selectedHoliday?.date)!
-        if date < Date() {
+        var date = selectedCustomDate
+        if date! < Date() {
             self.createAlert(title: "Alertă" , message: "Nu se poate seta o notificare pentru ziua selectată deoarece această zi a trecut.")
         } else {
-            SetNotification(date: date)
+            SetNotification(date: date!)
         }
         
     }
@@ -647,11 +656,11 @@ class ViewController: UIViewController , GADBannerViewDelegate {
                     }
                     
                     // Schedule Local Notification
-                    self.scheduleNotification(at: Date()) //test
+                    self.scheduleNotification(at: date)
                 })
             case .authorized:
                 // Schedule Local Notification
-                self.scheduleNotification(at: Date()) //test
+                self.scheduleNotification(at: date)
             case .denied:
                 self.createAlert(title: "Alertă" , message: "Pentru a putea activa această funcționalitate ar trebui sa permiți aplicației Calendar Ortodox să trimită notificări. Pentru a face asta te rog du-te pe dispozitivul tău in Setări -> Calendar Ortodox -> Notificări și selectează ON la opțiunea Permite notificări.")
             }
@@ -661,8 +670,7 @@ class ViewController: UIViewController , GADBannerViewDelegate {
     func scheduleNotification(at date: Date) {
         let calendar = Calendar(identifier: .gregorian)
         var components = calendar.dateComponents(in: .current, from: date)
-        let newComponents = DateComponents(calendar: calendar, timeZone: .current, month: components.month, day: components.day, hour: components.hour, minute: components.minute! + 1)
-        
+        let newComponents = DateComponents(calendar: calendar, timeZone: .current, month: components.month, day: components.day, hour: components.hour, minute: components.minute!)
         let trigger = UNCalendarNotificationTrigger(dateMatching: newComponents, repeats: false)
         
         let content = UNMutableNotificationContent()
@@ -682,7 +690,7 @@ class ViewController: UIViewController , GADBannerViewDelegate {
         }
     }
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    /*func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         if response.actionIdentifier == "com.apple.UNNotificationDefaultActionIdentifier" {
             
             if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ViewController") as? ViewController {
@@ -698,7 +706,7 @@ class ViewController: UIViewController , GADBannerViewDelegate {
                 }
             }
         }
-    }
+    }*/
     
     func createAlert(title: String , message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
@@ -708,6 +716,12 @@ class ViewController: UIViewController , GADBannerViewDelegate {
         }))
         
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        var modalDatePicker = segue.destination as! ModalDatePicker
+        modalDatePicker.delegate = self
+        modalDatePicker.date = (selectedHoliday?.date)!
     }
 
 }
