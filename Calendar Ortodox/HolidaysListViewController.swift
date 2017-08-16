@@ -597,9 +597,20 @@ class HolidaysListViewController: UIViewController  , UITableViewDataSource , UI
             toggleSection(header: ExpandableHeaderView(), section: currentMonth - 1)
         }
         
+        var index = 0
+        for i in 0..<sections[currentMonth - 1].holidays.count  {
+            if let holiday =  sections[currentMonth - 1].holidays[i] as? HolidayStr {
+                var calendar = Calendar.current
+                var day = calendar.component(.day, from: holiday.date)
+                if day == currentDay {
+                    index = i
+                }
+            }
+        }
+        
         let when = DispatchTime.now() + 0.3 // select the cell with a delay of 0.3 seconds
         DispatchQueue.main.asyncAfter(deadline: when) {
-            let indexPath = IndexPath(row: currentDay , section: currentMonth - 1)
+            let indexPath = IndexPath(row: index , section: currentMonth - 1)
             self.tableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.middle, animated: true)
             self.tableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableViewScrollPosition.middle)
             self.tableView(self.tableView, didSelectRowAt: indexPath)
