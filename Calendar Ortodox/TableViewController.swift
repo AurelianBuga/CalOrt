@@ -7,13 +7,12 @@
 //
 
 import UIKit
-import UserNotifications
 import GoogleMobileAds
 
-class TableViewController: UITableViewController , ExpandableHeaderViewDelegate , UISearchResultsUpdating , UISearchBarDelegate {
+class TableViewController: UITableViewController , ExpandableHeaderViewDelegate , UISearchResultsUpdating , UISearchBarDelegate , GADInterstitialDelegate , GADNativeExpressAdViewDelegate {
     var adsToLoad = [GADNativeExpressAdView]()
-    let adViewHeight = CGFloat(135)
-    let adViewWidth = CGFloat(370)
+    let adInterval = 5
+    let adViewHeight = CGFloat(80)
     
     @IBOutlet var holidaysTableView: UITableView!
     @IBOutlet var TodayButton: UIBarButtonItem!
@@ -21,6 +20,7 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var LoadingText: UILabel!
     @IBOutlet weak var segmentControl: UISegmentedControl!
+    @IBOutlet weak var ExpandCollapseAllButton: UIBarButtonItem!
     
     var searchController : UISearchController!
 
@@ -28,6 +28,8 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
     var viewController = ViewController()
     
     var selectedHoliday:HolidayStr?
+    var areAllExpanded: Bool?
+    
     
     var highlightedSearchRanges = [
         [Range<String.Index>](), [Range<String.Index>](), [Range<String.Index>](), [Range<String.Index>](), [Range<String.Index>](), [Range<String.Index>](), [Range<String.Index>](), [Range<String.Index>](), [Range<String.Index>](), [Range<String.Index>](), [Range<String.Index>](), [Range<String.Index>]()
@@ -50,6 +52,7 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
     
     var filteredSections = [Section]()
     
+    var interstitialAd: GADInterstitial?
 
     
     override func loadView() {
@@ -62,6 +65,7 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
         super.viewDidLoad()
         
         filteredSections = sections
+        areAllExpanded = false
 
         if filteredSections[11].holidays.count == 0 {
             segmentControl.isHidden = true
@@ -76,6 +80,14 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
                 self.segmentControl.isHidden = false
                 
                 self.tableView.reloadData()
+                
+                self.tableView.register(UINib(nibName: "NativeAdExpress" , bundle: nil), forCellReuseIdentifier: "NativeAdExpressCellView")
+                
+                DispatchQueue.main.async {
+                    self.AddNativeExpressAd()
+                    self.LoadNextAd()
+                    self.filteredSections = self.sections
+                }
             }
         }
         
@@ -91,6 +103,38 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
         self.searchController.searchResultsUpdater = self
         self.searchController.dimsBackgroundDuringPresentation = false
         self.navigationItem.titleView = self.searchController.searchBar
+        
+        interstitialAd = CreateAndLoadInterstitialAd()
+    }
+    
+    func CreateAndLoadInterstitialAd() -> GADInterstitial {
+        let request = GADRequest()
+        request.testDevices = [kGADSimulatorID]
+        let interstitial = GADInterstitial(adUnitID: "ca-app-pub-3495703042329721/6638139128")
+        interstitial.delegate = self
+        interstitial.load(request)
+        
+        return interstitial
+    }
+    
+    func interstitialDidDismissScreen(_ ad: GADInterstitial) {
+        interstitialAd = CreateAndLoadInterstitialAd()
+    }
+    
+    func randomNumberInRange(lower: Int , upper: Int) -> Int{
+        return lower + Int(arc4random_uniform(UInt32(upper - lower + 1)))
+    }
+    
+    func randomPresentationOfInterstitialAd(oneIn: Int) {
+        let randomNumber = randomNumberInRange(lower: 1, upper: oneIn)
+        
+        if randomNumber == 1 {
+            if interstitialAd != nil {
+                if (interstitialAd?.isReady)! {
+                    interstitialAd?.present(fromRootViewController: self)
+                }
+            }
+        }
     }
     
     func updateSearchResults(for searchController: UISearchController) {
@@ -140,17 +184,17 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
                 var filteredContent = [HolidayStr]()
                 highlightedSearchRanges[i].removeAll()
                 for holiday in section.holidays {
-                    var date = holiday.date
-                    var holidayWithoutDate = viewController.RemoveDateFromHolidayString(holidayString: holiday.holiday, date: date!)
+                    var date = (holiday as! HolidayStr).date
+                    var holidayWithoutDate = viewController.RemoveDateFromHolidayString(holidayString: (holiday as! HolidayStr).holiday, date: date!)
                     let holidayWithAttr = viewController.GenerateAttributedStringHoliday(holidayString: holidayWithoutDate)
                     
                     
                     if holidayWithAttr.string.lowercased().contains(searchString.lowercased()) {
                         highlightedSearchRanges[i].append(holidayWithAttr.string.lowercased().range(of: searchString.lowercased())!)
-                        filteredContent.append(holiday)
+                        filteredContent.append(holiday as! HolidayStr)
                     }
                 }
-                filteredSections.append(Section(month: section.month , holidays : filteredContent , expanded: true , loaded: true))
+                filteredSections.append(Section(month: section.month , holidays : filteredContent as! [AnyObject] , expanded: true , loaded: true))
                 i += 1
             }
         }
@@ -194,15 +238,18 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        TodayButton = self.navigationItem.leftBarButtonItem
+        NotificationButton = self.navigationItem.rightBarButtonItem
         self.navigationItem.setRightBarButton(nil, animated: true)
         self.navigationItem.setLeftBarButton(nil, animated: true)
+        
+        
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         self.navigationItem.setRightBarButton(NotificationButton, animated: true)
-        //self.searchController.searchBar.sizeToFit()
         self.navigationItem.setLeftBarButton(TodayButton, animated: true)
-        
+        self.searchController.searchBar.sizeToFit()
         self.SegmentControlChanged(self)
     }
     
@@ -227,6 +274,32 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
         let header  = ExpandableHeaderView()
         header.customInit(title: sections[section].month, section: section, delegate: self)
         
+        var frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+        var myCustomView: UIImageView = UIImageView(frame: frame)
+        var myImage: UIImage
+        
+        myImage = UIImage(named: "right_arrow")!
+        
+        if sections[section].expanded {
+            UIView.animate(withDuration: 0.40, animations: {
+                myCustomView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI * 0.50))
+            })
+        }
+        
+        
+        myCustomView.image = myImage
+        header.addSubview(myCustomView)
+        
+        let trailingSpace = NSLayoutConstraint(item: header, attribute: NSLayoutAttribute.trailingMargin, relatedBy: NSLayoutRelation.equal, toItem: myCustomView, attribute: NSLayoutAttribute.trailing, multiplier: 1, constant: 20)
+        let leadingSpace = NSLayoutConstraint(item: header, attribute: NSLayoutAttribute.leadingMargin, relatedBy: NSLayoutRelation.greaterThanOrEqual, toItem: myCustomView, attribute: NSLayoutAttribute.leading, multiplier: 1, constant: 100)
+        let centerX = NSLayoutConstraint(item: myCustomView, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: header, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
+        let width = NSLayoutConstraint(item: myCustomView, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 20)
+        let centerY = NSLayoutConstraint(item: myCustomView, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: header, attribute: NSLayoutAttribute.centerY, multiplier: 1, constant: 0)
+        
+        NSLayoutConstraint.activate([trailingSpace  , centerY , width])
+        
+        myCustomView.translatesAutoresizingMaskIntoConstraints = false
+        
         return header
     }
     
@@ -242,15 +315,15 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
         for section in sections {
             var resultHolidays: [HolidayStr] = []
             for holiday in section.holidays {
-                for crossTypeX in holiday.crossTypes {
+                for crossTypeX in (holiday as! HolidayStr).crossTypes {
                     if crossTypeX == crossType {
-                        resultHolidays.append(holiday)
+                        resultHolidays.append(holiday as! HolidayStr)
                         break
                     }
                 }
             }
             sectionCrossType = section
-            sectionCrossType.holidays = resultHolidays
+            sectionCrossType.holidays = resultHolidays as! [AnyObject]
             result.append(sectionCrossType)
         }
         
@@ -259,30 +332,54 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let date: Date
-        let cell = tableView.dequeueReusableCell(withIdentifier: "holidayCell") as! HolidayListTableViewCell
-        //let holidayWithoutDate = viewController.RemoveDateFromHolidayString(holidayString: sections[indexPath.section].holidays[indexPath.row].holiday, date: date!)
-        //let holiday =  viewController.GenerateAttributedStringHoliday(holidayString: holidayWithoutDate)
-        let holidayWithoutDate: String!
-            date = filteredSections[indexPath.section].holidays[indexPath.row].date
-            holidayWithoutDate = viewController.RemoveDateFromHolidayString(holidayString: filteredSections[indexPath.section].holidays[indexPath.row].holiday, date: date)
-        
-        
-        let holiday = viewController.GenerateAttributedStringHoliday(holidayString: holidayWithoutDate)
-        
-        if searchController.isActive && searchController.searchBar.text != "" {
-            cell.holidayLabel.attributedText = highlightSearchedText(holiday: holiday , indexPath: indexPath)
+        if ((filteredSections[indexPath.section].holidays[indexPath.row] as? HolidayStr) != nil) {
+            let date: Date
+            let cell = tableView.dequeueReusableCell(withIdentifier: "holidayCell") as! HolidayListTableViewCell
+            //let holidayWithoutDate = viewController.RemoveDateFromHolidayString(holidayString: sections[indexPath.section].holidays[indexPath.row].holiday, date: date!)
+            //let holiday =  viewController.GenerateAttributedStringHoliday(holidayString: holidayWithoutDate)
+            let holidayWithoutDate: String!
+            date = (filteredSections[indexPath.section].holidays[indexPath.row] as! HolidayStr).date
+            holidayWithoutDate = viewController.RemoveDateFromHolidayString(holidayString: (filteredSections[indexPath.section].holidays[indexPath.row] as! HolidayStr).holiday, date: date)
+            
+            
+            let holiday = viewController.GenerateAttributedStringHoliday(holidayString: holidayWithoutDate)
+            
+            if searchController.isActive && searchController.searchBar.text != "" {
+                cell.holidayLabel.attributedText = highlightSearchedText(holiday: holiday , indexPath: indexPath)
+            } else {
+                cell.holidayLabel.attributedText = holiday
+            }
+            
+            let calendar = Calendar.current
+            cell.dateLabel.text = String(calendar.component(.day, from: date)) + ", " + viewController.GetWeekDayName(date: date)
+            
+            return cell
         } else {
-            cell.holidayLabel.attributedText = holiday
+            let adView = filteredSections[indexPath.section].holidays[indexPath.row] as! GADNativeExpressAdView
+            let cell = tableView.dequeueReusableCell(withIdentifier: "NativeAdExpressCellView" , for: indexPath)
+            
+            for subview in cell.contentView.subviews {
+                cell.willRemoveSubview(subview)
+            }
+            
+            cell.contentView.addSubview(adView)
+            adsToLoad.append(adView)
+            adView.center = cell.contentView.center
+            
+            return cell
         }
         
-        let calendar = Calendar.current
-        cell.dateLabel.text = String(calendar.component(.day, from: date)) + ", " + viewController.GetWeekDayName(date: date)
-        return cell
+        
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.selectedHoliday = filteredSections[indexPath.section].holidays[indexPath.row]
+        if (filteredSections[indexPath.section].holidays[indexPath.row] as? HolidayStr != nil) {
+            self.selectedHoliday = (filteredSections[indexPath.section].holidays[indexPath.row] as! HolidayStr)
+            performSegue(withIdentifier: "HolidayShowDetailsSegue", sender: self)
+        } else {
+            let adView = filteredSections[indexPath.section].holidays[indexPath.row] as! GADNativeExpressAdView
+            //adView.select(self)
+        }
     }
     
     func highlightSearchedText(holiday: NSMutableAttributedString , indexPath : IndexPath) -> NSMutableAttributedString {
@@ -354,7 +451,7 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
                 
                 
                 var holidayStr = HolidayStr(holiday: holidayString!, date: date , crossTypes: crossTypes)
-                sections[monthNo - 1].holidays.append(holidayStr)
+                sections[monthNo - 1].holidays.append(holidayStr as! AnyObject)
                 date = Calendar.current.date(byAdding: dateComponent, to: date)!
                 dateString = viewController.ConvertDateToString(date: date)!
             } else {
@@ -425,66 +522,6 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
         }
     }
     
-    private func requestAuthorization(completionHandler: @escaping (_ success: Bool) -> ()) {
-        // Request Authorization
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (success, error) in
-            if let error = error {
-                print("Request Authorization Failed (\(error), \(error.localizedDescription))")
-            }
-            
-            completionHandler(success)
-        }
-    }
-    
-    func scheduleNotification(at date: Date) {
-        let calendar = Calendar(identifier: .gregorian)
-        var components = calendar.dateComponents(in: .current, from: date)
-        let newComponents = DateComponents(calendar: calendar, timeZone: .current, month: components.month, day: components.day, hour: components.hour, minute: components.minute! + 1)
-        
-        let trigger = UNCalendarNotificationTrigger(dateMatching: newComponents, repeats: false)
-        
-        let content = UNMutableNotificationContent()
-        content.title = "Notificare"
-        content.body = (selectedHoliday?.holiday)!
-        content.badge = UIApplication.shared.applicationIconBadgeNumber + 1 as NSNumber
-        content.sound = UNNotificationSound.default()
-        
-        formatter.dateFormat = "yyyy MM dd"
-        
-        let request = UNNotificationRequest(identifier: "holiday_" + formatter.string(from: (selectedHoliday?.date)!), content: content, trigger: trigger)
-        
-        UNUserNotificationCenter.current().add(request) {(error) in
-            if let error = error {
-                print("Uh oh! We had an error: \(error)")
-            }
-        }
-    }
-
-
-    
-    func SetNotification(date: Date) {
-        UNUserNotificationCenter.current().getNotificationSettings { (notificationSettings) in
-            switch notificationSettings.authorizationStatus {
-            case .notDetermined:
-                self.requestAuthorization(completionHandler: { (success) in
-                    guard success else {
-                        self.createAlert(title: "Alertă" , message: "Pentru a putea activa această funcționalitate ar trebui sa permiți aplicației Calendar Ortodox să trimită notificări. Pentru a face asta te rog du-te pe dispozitivul tău in Setări -> Calendar Ortodox -> Notificări și selectează ON la opțiunea Permite notificări.")
-                        return
-                    }
-                    
-                    // Schedule Local Notification
-                    self.scheduleNotification(at: Date()) //test
-                })
-            case .authorized:
-                // Schedule Local Notification
-                self.scheduleNotification(at: Date()) //test
-            case .denied:
-                self.createAlert(title: "Alertă" , message: "Pentru a putea activa această funcționalitate ar trebui sa permiți aplicației Calendar Ortodox să trimită notificări. Pentru a face asta te rog du-te pe dispozitivul tău in Setări -> Calendar Ortodox -> Notificări și selectează ON la opțiunea Permite notificări.")
-            }
-        }
-    }
-
-    
     func createAlert(title: String , message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
         
@@ -518,20 +555,9 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
             self.tableView(self.tableView, didSelectRowAt: indexPath)
         }
         
+        randomPresentationOfInterstitialAd(oneIn: 2)
+        
     }
-    
-    
-    @IBAction func SetNotification(_ sender: Any) {
-        //get date
-        if let indexPath = tableView.indexPathForSelectedRow {
-            var date = filteredSections[indexPath.section].holidays[indexPath.row].date
-            SetNotification(date: date!)
-        } else {
-            //alert user that a selection is needed
-            createAlert(title: "Alertă" , message: "Pentru a putea seta o notificare este necesar să selectati o zi.")
-        }
-    }
-    
     
     @IBAction func SegmentControlChanged(_ sender: Any) {
         switch segmentControl.selectedSegmentIndex {
@@ -559,8 +585,87 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
         self.tableView.reloadData()
     }
     
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if let indexPath = tableView.indexPathForSelectedRow {
+            return true
+        } else {
+            return false
+        }
+    }
     
-
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "HolidayShowDetailsSegue" {
+            if selectedHoliday != nil {
+                let calendar = Calendar.current
+                let selectedDate = selectedHoliday?.date
+                formatter.dateFormat = "MMMM"
+                var holidayDetails = segue.destination as! HolidayDetailsViewController
+                holidayDetails.day = viewController.GetWeekDayName(date: selectedDate!) + ","
+                holidayDetails.dateString = String(calendar.component(.day, from: selectedDate!)) + " " + viewController.translateMonth(month: formatter.string(from: selectedDate!)) + " " + String(calendar.component(.year, from: selectedDate!))
+                holidayDetails.date = selectedDate
+                holidayDetails.body = viewController.GenerateAttributedStringHoliday(holidayString: (viewController.RemoveDateFromHolidayString(holidayString: viewController.RemoveAddInfoHoliday(holidayString: (selectedHoliday?.holiday)!)  , date: selectedDate!)))
+                holidayDetails.addInfo = viewController.ExtractAddInfoHoliday(holidayString: (selectedHoliday?.holiday)!)
+            }
+        }
+    }
+    
+    @IBAction func ExpandCollapseAllButtonClick(_ sender: Any) {
+        if !areAllExpanded! {
+            areAllExpanded = true
+            ExpandCollapseAllButton.title = "Restrange toate"
+            
+            for i in 0..<sections.count {
+                if !sections[i].expanded {
+                    toggleSection(header: ExpandableHeaderView(), section: i)
+                }
+            }
+        } else {
+            areAllExpanded = false
+            ExpandCollapseAllButton.title = "Extinde toate"
+            
+            for i in 0..<sections.count {
+                if sections[i].expanded {
+                    toggleSection(header: ExpandableHeaderView(), section: i)
+                }
+            }
+        }
+        
+    }
+    
+    func AddNativeExpressAd() {
+        var index = 4
+        let size = GADAdSizeFromCGSize(CGSize(width: tableView.contentSize.width, height: adViewHeight))
+        for i in 0..<sections.count {
+            while index < sections[i].holidays.count {
+                do {
+                    let adView = GADNativeExpressAdView(adSize: size)
+                    adView?.adUnitID = "ca-app-pub-3495703042329721/7810018908"
+                    adView?.rootViewController = self
+                    sections[i].holidays.insert(adView!, at: index)
+                    adsToLoad.append(adView!)
+                    adView?.delegate = self
+                    index += adInterval
+                } catch {
+                    print(error)
+                }
+                
+            }
+            index = 4
+        }
+    }
+    
+    func LoadNextAd() {
+        if !adsToLoad.isEmpty {
+            let adView = adsToLoad.removeFirst()
+            let request = GADRequest()
+            request.testDevices = [kGADSimulatorID]
+            adView.load(request)
+        }
+    }
+    
+    func nativeExpressAdViewDidReceiveAd(_ nativeExpressAdView: GADNativeExpressAdView) {
+        LoadNextAd()
+    }
 }
 
 extension String {

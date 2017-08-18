@@ -16,7 +16,7 @@ protocol PopupDelegate {
     func SetDateForNotification(date: Date)
 }
 
-class ViewController: UIViewController , GADBannerViewDelegate , PopupDelegate {
+class ViewController: UIViewController , GADBannerViewDelegate , PopupDelegate , GADInterstitialDelegate {
     
     let formatter = DateFormatter()
     
@@ -42,6 +42,8 @@ class ViewController: UIViewController , GADBannerViewDelegate , PopupDelegate {
     var selectedHoliday:HolidayStr?
     var selectedCustomDate: Date?
     
+    var interstitialAd: GADInterstitial?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         SetupCalendarView()
@@ -50,13 +52,45 @@ class ViewController: UIViewController , GADBannerViewDelegate , PopupDelegate {
         UNUserNotificationCenter.current().delegate = self
         selectedHoliday = HolidayStr()
         
-        //request ad
+        //request banner ad
         let request = GADRequest()
         request.testDevices = [kGADSimulatorID]
         
         Banner.adUnitID = "ca-app-pub-3495703042329721/6845014697"
         Banner.rootViewController = self
         Banner.load(request)
+        
+        interstitialAd = CreateAndLoadInterstitialAd()
+    }
+    
+    func CreateAndLoadInterstitialAd() -> GADInterstitial {
+        let request = GADRequest()
+        request.testDevices = [kGADSimulatorID]
+        let interstitial = GADInterstitial(adUnitID: "ca-app-pub-3495703042329721/6638139128")
+        interstitial.delegate = self
+        interstitial.load(request)
+        
+        return interstitial
+    }
+    
+    func interstitialDidDismissScreen(_ ad: GADInterstitial) {
+        interstitialAd = CreateAndLoadInterstitialAd()
+    }
+    
+    func randomNumberInRange(lower: Int , upper: Int) -> Int{
+        return lower + Int(arc4random_uniform(UInt32(upper - lower + 1)))
+    }
+    
+    func randomPresentationOfInterstitialAd(oneIn: Int) {
+        let randomNumber = randomNumberInRange(lower: 1, upper: oneIn)
+        
+        if randomNumber == 1 {
+            if interstitialAd != nil {
+                if (interstitialAd?.isReady)! {
+                    interstitialAd?.present(fromRootViewController: self)
+                }
+            }
+        }
     }
     
     func SetDateForNotification(date: Date) {
@@ -621,6 +655,8 @@ class ViewController: UIViewController , GADBannerViewDelegate , PopupDelegate {
     
     @IBAction func GoToCurrentDate(_ sender: Any) {
         setCurrentDate(date: Date())
+        
+        randomPresentationOfInterstitialAd(oneIn: 2)
     }
     
     
@@ -657,10 +693,13 @@ class ViewController: UIViewController , GADBannerViewDelegate , PopupDelegate {
                     
                     // Schedule Local Notification
                     self.scheduleNotification(at: date)
+                    
+                    self.randomPresentationOfInterstitialAd(oneIn: 2)
                 })
             case .authorized:
                 // Schedule Local Notification
                 self.scheduleNotification(at: date)
+                self.randomPresentationOfInterstitialAd(oneIn: 2)
             case .denied:
                 self.createAlert(title: "Alertă" , message: "Pentru a putea activa această funcționalitate ar trebui sa permiți aplicației Calendar Ortodox să trimită notificări. Pentru a face asta te rog du-te pe dispozitivul tău in Setări -> Calendar Ortodox -> Notificări și selectează ON la opțiunea Permite notificări.")
             }

@@ -384,21 +384,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <view key="tableHeaderView" contentMode="scaleToFill" id="flg-0K-tVX">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3OU-iv-C16" customClass="GADBannerView">
-                                    <rect key="frame" x="0.0" y="-3" width="375" height="50"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </view>
-                            </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PrayerCell" textLabel="3Yn-ze-Blg" style="IBUITableViewCellStyleDefault" id="r0A-hg-YZO">
-                                <rect key="frame" x="0.0" y="72" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="r0A-hg-YZO" id="IBV-Ke-ACF">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -422,7 +410,6 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Rugăciuni" id="vEn-4O-iKU"/>
                     <connections>
-                        <outlet property="Banner" destination="3OU-iv-C16" id="VZI-MT-39x"/>
                         <segue destination="jKX-Ef-hkG" kind="show" identifier="prayerSegue" id="7w1-Xz-Mm4"/>
                     </connections>
                 </tableViewController>
@@ -527,7 +514,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ufS-BJ-xiN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4018" y="1414"/>
+            <point key="canvasLocation" x="3759" y="1414"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="V5x-SL-Haf">
@@ -543,7 +530,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2ko-cy-Xqp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5100" y="1414"/>
+            <point key="canvasLocation" x="4643" y="1414"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="ZjX-2w-CIr">
@@ -701,25 +688,121 @@
                                 </connections>
                             </button>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="bell" id="igc-Yt-MfN">
+                        <barButtonItem key="rightBarButtonItem" title="Extinde toate" id="a5V-Kc-o2d">
                             <connections>
-                                <action selector="SetNotification:" destination="fXX-13-Eo9" id="dqJ-VP-f0t"/>
+                                <action selector="ExpandCollapseAllButtonClick:" destination="fXX-13-Eo9" id="LW5-fR-79z"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="ExpandCollapseAllButton" destination="a5V-Kc-o2d" id="bDV-5j-huh"/>
                         <outlet property="LoadingText" destination="Z6a-G1-Y8G" id="BsR-OQ-cmm"/>
-                        <outlet property="NotificationButton" destination="igc-Yt-MfN" id="T1F-Aw-4eN"/>
                         <outlet property="TodayButton" destination="soH-mz-VXC" id="8B1-Yp-UHM"/>
                         <outlet property="activityIndicator" destination="66R-v6-R9j" id="kS3-jx-cPx"/>
                         <outlet property="holidaysTableView" destination="uBx-Vt-o7M" id="5vE-CZ-YYE"/>
                         <outlet property="segmentControl" destination="7t4-XY-84e" id="FMb-dM-c1k"/>
                         <outlet property="tableView" destination="uBx-Vt-o7M" id="ba0-1P-w3r"/>
+                        <segue destination="kan-gE-cMH" kind="show" identifier="HolidayShowDetailsSegue" id="8s5-uP-ZQi"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Aor-gO-SkO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2880.8000000000002" y="494.30284857571218"/>
+        </scene>
+        <!--Holiday Details View Controller-->
+        <scene sceneID="VdK-9B-3bY">
+            <objects>
+                <viewController id="kan-gE-cMH" customClass="HolidayDetailsViewController" customModule="Calendar_Ortodox" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="SJD-lY-T1Z"/>
+                        <viewControllerLayoutGuide type="bottom" id="hCd-Js-n55"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="tHO-fx-V6G">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SqV-qe-wK9">
+                                <rect key="frame" x="16" y="90" width="66.5" height="33.5"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Zb-UR-IGl">
+                                <rect key="frame" x="232" y="202" width="42" height="20.5"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="Label">
+                                        <attributes>
+                                            <font key="NSFont" metaFont="system" size="17"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zb6-C3-w7S">
+                                <rect key="frame" x="16" y="124.5" width="66.5" height="33.5"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6MT-fg-mmv">
+                                <rect key="frame" x="16" y="241" width="44.5" height="21"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="0Zb-UR-IGl" secondAttribute="trailing" constant="10" id="056-qz-WiF"/>
+                            <constraint firstItem="6MT-fg-mmv" firstAttribute="top" secondItem="0Zb-UR-IGl" secondAttribute="bottom" constant="23.5" id="13b-Da-BpJ"/>
+                            <constraint firstItem="0Zb-UR-IGl" firstAttribute="top" secondItem="zb6-C3-w7S" secondAttribute="bottom" constant="39" id="2Bm-7S-neJ"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="6MT-fg-mmv" secondAttribute="leading" id="8jy-3L-Rkn"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="0Zb-UR-IGl" secondAttribute="leading" id="Ns2-ej-xgZ"/>
+                            <constraint firstItem="zb6-C3-w7S" firstAttribute="top" secondItem="SqV-qe-wK9" secondAttribute="bottom" constant="3" id="UZf-dp-CkH"/>
+                            <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="6MT-fg-mmv" secondAttribute="trailing" constant="30" id="YiD-LY-0Ik"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="SqV-qe-wK9" secondAttribute="leading" id="a1a-OA-z1X"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="zb6-C3-w7S" secondAttribute="leading" id="mFa-8x-l74"/>
+                            <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="SqV-qe-wK9" secondAttribute="trailing" constant="30" id="mOh-7D-w57"/>
+                            <constraint firstItem="SqV-qe-wK9" firstAttribute="top" secondItem="SJD-lY-T1Z" secondAttribute="bottom" constant="24" id="ne6-4T-x7f"/>
+                            <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="zb6-C3-w7S" secondAttribute="trailing" constant="30" id="pHk-vl-53T"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="57e-qF-LWM">
+                        <barButtonItem key="rightBarButtonItem" image="bell" id="igc-Yt-MfN">
+                            <connections>
+                                <segue destination="8Hw-6A-bgi" kind="presentation" identifier="HolidayDetailsSetNotificationSegue" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="rlw-Z7-OW9"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="AddInfoLabel" destination="6MT-fg-mmv" id="cEv-xa-zln"/>
+                        <outlet property="BodyLabel" destination="0Zb-UR-IGl" id="5em-m7-Kea"/>
+                        <outlet property="DateLabel" destination="zb6-C3-w7S" id="MQz-at-XFi"/>
+                        <outlet property="DayLabel" destination="SqV-qe-wK9" id="1ne-Jk-SRI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dLw-Wc-nup" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3744.375" y="478.75"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="sOr-zt-7oj">
+            <objects>
+                <navigationController id="9ib-o8-gtN" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="dZK-eL-dRJ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="kan-gE-cMH" kind="relationship" relationship="rootViewController" id="q8h-uJ-fis"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xyc-Fw-jTw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4643" y="494"/>
         </scene>
         <!--Rugăciuni-->
         <scene sceneID="Ers-I3-acJ">
@@ -770,6 +853,8 @@
         <image name="zoom_out" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="8s5-uP-ZQi"/>
+        <segue reference="rlw-Z7-OW9"/>
         <segue reference="7w1-Xz-Mm4"/>
     </inferredMetricsTieBreakers>
 </document>

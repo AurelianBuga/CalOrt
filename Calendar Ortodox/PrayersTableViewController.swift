@@ -20,31 +20,23 @@ struct PrayerStr {
     }
 }
 
-class PrayersTableViewController: UITableViewController , GADBannerViewDelegate {
+class PrayersTableViewController: UITableViewController , GADNativeExpressAdViewDelegate  {
     
-    var prayers: [PrayerStr]!
+    var prayers: [AnyObject]!
     var selectedPrayer: PrayerStr!
-    
-    @IBOutlet weak var Banner: GADBannerView!
+    var adsToLoad = [GADNativeExpressAdView]()
+    let adInterval = 5
+    let adViewHeight = CGFloat(80)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         prayers = []
         GetPrayers()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        tableView.register(UINib(nibName: "NativeAdExpress" , bundle: nil), forCellReuseIdentifier: "NativeAdExpressCellView")
         
-        //request ad
-        let request = GADRequest()
-        request.testDevices = [kGADSimulatorID]
-        
-        Banner.adUnitID = "ca-app-pub-3495703042329721/6845014697"
-        Banner.rootViewController = self
-        Banner.load(request)
+        AddNativeExpressAd()
+        LoadNextAd()
     }
 
     override func didReceiveMemoryWarning() {
@@ -81,7 +73,7 @@ class PrayersTableViewController: UITableViewController , GADBannerViewDelegate 
                 for result in results as! [NSManagedObject] {
                     
                     if let name = result.value(forKey: "name") as? String , let body = result.value(forKey: "body") as? String {
-                        prayers.append(PrayerStr(title: name, body: processPrayer(prayer: body)!))
+                        prayers.append(PrayerStr(title: name, body: processPrayer(prayer: body)!) as AnyObject)
                     }
                 }
             }
@@ -110,12 +102,29 @@ class PrayersTableViewController: UITableViewController , GADBannerViewDelegate 
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PrayerCell", for: indexPath)
-
-        cell.textLabel?.text = prayers[indexPath.row].title
-        cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
-
-        return cell
+        if let prayer = prayers[indexPath.row] as? PrayerStr {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PrayerCell", for: indexPath)
+            
+            cell.textLabel?.text = prayer.title
+            cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
+            
+            return cell
+            
+        } else {
+            let adView = prayers[indexPath.row] as! GADNativeExpressAdView
+            let cell = tableView.dequeueReusableCell(withIdentifier: "NativeAdExpressCellView" , for: indexPath)
+            
+            for subview in cell.contentView.subviews {
+                cell.willRemoveSubview(subview)
+            }
+            
+            cell.contentView.addSubview(adView)
+            adsToLoad.append(adView)
+            adView.center = cell.contentView.center
+        
+            return cell
+        }
+        
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -135,49 +144,40 @@ class PrayersTableViewController: UITableViewController , GADBannerViewDelegate 
         }
     }
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    func AddNativeExpressAd() {
+        var index = 4
+        let size = GADAdSizeFromCGSize(CGSize(width: tableView.contentSize.width, height: adViewHeight))
+        while index < prayers.count {
+            let adView = GADNativeExpressAdView(adSize: size)
+            adView?.adUnitID = "ca-app-pub-3495703042329721/7810018908"
+            adView?.rootViewController = self
+            prayers.insert(adView!, at: index)
+            adsToLoad.append(adView!)
+            adView?.delegate = self
+            index += adInterval
+        }
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+    
+    func LoadNextAd() {
+        if !adsToLoad.isEmpty {
+            let adView = adsToLoad.removeFirst()
+            let request = GADRequest()
+            request.testDevices = [kGADSimulatorID]
+            adView.load(request)
+        }
     }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
+    
+    func nativeExpressAdViewDidReceiveAd(_ nativeExpressAdView: GADNativeExpressAdView) {
+        LoadNextAd()
     }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if prayers[indexPath.row] is GADNativeExpressAdView {
+            return CGFloat(adViewHeight)
+        } else {
+            return CGFloat(50)
+        }
     }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
+
+

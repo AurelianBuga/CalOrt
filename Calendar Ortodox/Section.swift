@@ -17,11 +17,11 @@ enum CrossType {
 
 struct Section {
     var month:String!
-    var holidays:[HolidayStr]!
+    var holidays:[AnyObject]!
     var expanded: Bool!
     var loaded: Bool!
 
-    init(month:String , holidays:[HolidayStr] , expanded: Bool , loaded: Bool) {
+    init(month:String , holidays:[AnyObject] , expanded: Bool , loaded: Bool) {
         self.month = month
         self.holidays = holidays
         self.expanded = expanded
