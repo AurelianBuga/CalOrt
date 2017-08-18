@@ -74,16 +74,18 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
             
             DispatchQueue.global(qos: .userInitiated).async {
                 self.LoadAllHolidays()
-                self.activityIndicator.stopAnimating()
-                self.activityIndicator.isHidden = true
-                self.LoadingText.isHidden = true
-                self.segmentControl.isHidden = false
                 
-                self.tableView.reloadData()
-                
-                self.tableView.register(UINib(nibName: "NativeAdExpress" , bundle: nil), forCellReuseIdentifier: "NativeAdExpressCellView")
                 
                 DispatchQueue.main.async {
+                    self.activityIndicator.stopAnimating()
+                    self.activityIndicator.isHidden = true
+                    self.LoadingText.isHidden = true
+                    self.segmentControl.isHidden = false
+                    
+                    self.tableView.reloadData()
+                    
+                    self.tableView.register(UINib(nibName: "NativeAdExpress" , bundle: nil), forCellReuseIdentifier: "NativeAdExpressCellView")
+                    
                     self.AddNativeExpressAd()
                     self.LoadNextAd()
                     self.filteredSections = self.sections
