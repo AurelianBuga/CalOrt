@@ -72,6 +72,21 @@ class TableViewController: UITableViewController , ExpandableHeaderViewDelegate 
             activityIndicator.startAnimating()
             activityIndicator.backgroundColor = UIColor.white
             
+            // Translucency of the navigation bar is disabled so that it matches with
+            // the non-translucent background of the extension view.
+            //navigationController!.navigationBar.isTranslucent = false
+            self.navigationController?.navigationBar.isTranslucent = false
+            
+            // The navigation bar's shadowImage is set to a transparent image.  In
+            // addition to providing a custom background image, this removes
+            // the grey hairline at the bottom of the navigation bar.  The
+            // ExtendedNavBarView will draw its own hairline.
+            //navigationController!.navigationBar.shadowImage = #imageLiteral(resourceName: "TransparentPixel")
+            //self.navigationController?.navigationBar.shadowImage = #imageLiteral(resourceName: "TransparentPixel")
+            // "Pixel" is a solid white 1x1 image.
+            //navigationController!.navigationBar.setBackgroundImage(#imageLiteral(resourceName: "Pixel"), for: .default)
+            //self.navigationController?.navigationBar.setBackgroundImage(#imageLiteral(resourceName: "Pixel"), for: .default)
+            
             DispatchQueue.global(qos: .userInitiated).async {
                 self.LoadAllHolidays()
                 
@@ -694,3 +709,4 @@ extension String {
         return NSRange(location: utf16.startIndex.distance(to: lower), length: lower.distance(to: upper))
     }
 }
+
