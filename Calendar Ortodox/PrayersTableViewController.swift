@@ -25,7 +25,7 @@ class PrayersTableViewController: UITableViewController , GADNativeExpressAdView
     var prayers: [AnyObject]!
     var selectedPrayer: PrayerStr!
     var adsToLoad = [GADNativeExpressAdView]()
-    let adInterval = 5
+    let adInterval = 7
     let adViewHeight = CGFloat(80)
 
     override func viewDidLoad() {
@@ -147,7 +147,7 @@ class PrayersTableViewController: UITableViewController , GADNativeExpressAdView
     }
 
     func AddNativeExpressAd() {
-        var index = 4
+        var index = 5
         let size = GADAdSizeFromCGSize(CGSize(width: tableView.contentSize.width, height: adViewHeight))
         while index < prayers.count {
             let adView = GADNativeExpressAdView(adSize: size)

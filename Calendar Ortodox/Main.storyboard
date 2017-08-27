@@ -98,8 +98,8 @@
                                                             <rect key="frame" x="33" y="25.5" width="40" height="40"/>
                                                             <color key="backgroundColor" red="1" green="0.28207702987266425" blue="0.24685925117205387" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="40" id="1cF-lA-we7"/>
-                                                                <constraint firstAttribute="height" constant="40" id="Cvg-US-tdF"/>
+                                                                <constraint firstAttribute="height" constant="40" id="eA6-uQ-Mry"/>
+                                                                <constraint firstAttribute="width" constant="40" id="iaB-3J-KVz"/>
                                                             </constraints>
                                                             <userDefinedRuntimeAttributes>
                                                                 <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -108,8 +108,8 @@
                                                             </userDefinedRuntimeAttributes>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Sk-Yw-ePQ">
-                                                            <rect key="frame" x="32" y="35" width="42" height="21"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <rect key="frame" x="31.5" y="35" width="43" height="21"/>
+                                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
@@ -350,7 +350,7 @@
             </objects>
             <point key="canvasLocation" x="3759.375" y="-235"/>
         </scene>
-        <!--Informatii Utile-->
+        <!--Informații Utile-->
         <scene sceneID="LuA-Lu-D5e">
             <objects>
                 <tableViewController id="Ov0-ga-Wmw" customClass="UsefulInfoTableViewController" customModule="Calendar_Ortodox" customModuleProvider="target" sceneMemberID="viewController">
@@ -382,7 +382,7 @@
                             <outlet property="delegate" destination="Ov0-ga-Wmw" id="nns-0i-rcw"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Informatii Utile" id="Ggh-bk-bEY"/>
+                    <navigationItem key="navigationItem" title="Informații Utile" id="Ggh-bk-bEY"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CnL-MZ-i9l" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -722,8 +722,8 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wuv-gX-ICc">
-                                                    <rect key="frame" x="19" y="8" width="39.5" height="19.5"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <rect key="frame" x="19" y="8" width="41.5" height="19.5"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>

@@ -62,7 +62,7 @@ class ViewController: UIViewController , GADBannerViewDelegate , PopupDelegate ,
         
         interstitialAd = CreateAndLoadInterstitialAd()
         //reset badge number
-        UIApplication.shared.applicationIconBadgeNumber = 0
+        //UIApplication.shared.applicationIconBadgeNumber = 0
     }
     
     func CreateAndLoadInterstitialAd() -> GADInterstitial {
@@ -731,23 +731,11 @@ class ViewController: UIViewController , GADBannerViewDelegate , PopupDelegate ,
         }
     }
     
-    /*func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         if response.actionIdentifier == "com.apple.UNNotificationDefaultActionIdentifier" {
-            
-            if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ViewController") as? ViewController {
-                if let navigator = navigationController {
-                    navigator.pushViewController(viewController, animated: true)
-                }
-                
-                let currentCountStr = UIApplication.shared.applicationIconBadgeNumber.description
-                let currentCount = Int(currentCountStr)
-                
-                if(currentCount! > 0) {
-                    UIApplication.shared.applicationIconBadgeNumber = 0
-                }
-            }
+           UIApplication.shared.applicationIconBadgeNumber = 0
         }
-    }*/
+    }
     
     func createAlert(title: String , message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)

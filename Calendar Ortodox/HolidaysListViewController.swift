@@ -11,7 +11,7 @@ import GoogleMobileAds
 
 class HolidaysListViewController: UIViewController  , UITableViewDataSource , UITableViewDelegate , ExpandableHeaderViewDelegate , UISearchResultsUpdating , UISearchBarDelegate , GADInterstitialDelegate , GADNativeExpressAdViewDelegate {
     var adsToLoad = [GADNativeExpressAdView]()
-    let adInterval = 5
+    let adInterval = 7
     let adViewHeight = CGFloat(100)
     
     
@@ -651,7 +651,7 @@ class HolidaysListViewController: UIViewController  , UITableViewDataSource , UI
     @IBAction func ExpandCollapseAllButtonClick(_ sender: Any) {
         if !areAllExpanded! {
             areAllExpanded = true
-            ExpandCollapseAllButton.title = "Restrange"
+            ExpandCollapseAllButton.title = "Restrânge"
             
             for i in 0..<sections.count {
                 if !sections[i].expanded {
@@ -672,7 +672,7 @@ class HolidaysListViewController: UIViewController  , UITableViewDataSource , UI
     }
     
     func AddNativeExpressAd() {
-        var index = 4
+        var index = 5
         let size = GADAdSizeFromCGSize(CGSize(width: tableView.contentSize.width, height: adViewHeight))
         for i in 0..<sections.count {
             while index < sections[i].holidays.count {
