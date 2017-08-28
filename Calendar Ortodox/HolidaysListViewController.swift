@@ -75,7 +75,7 @@ class HolidaysListViewController: UIViewController  , UITableViewDataSource , UI
             tableView.deselectRow(at: $0, animated: true)
         }
         
-        navigationController?.navigationBar.clipsToBounds = true
+        //navigationController?.navigationBar.clipsToBounds = true
     }
     
     override func viewDidLoad() {
@@ -124,6 +124,8 @@ class HolidaysListViewController: UIViewController  , UITableViewDataSource , UI
         self.navigationItem.titleView = self.searchController.searchBar
         
         interstitialAd = CreateAndLoadInterstitialAd()
+        //reset badge number
+        UIApplication.shared.applicationIconBadgeNumber = 0
     }
     
     func CreateAndLoadInterstitialAd() -> GADInterstitial {
@@ -597,7 +599,7 @@ class HolidaysListViewController: UIViewController  , UITableViewDataSource , UI
         
         let when = DispatchTime.now() + 0.3 // select the cell with a delay of 0.3 seconds
         DispatchQueue.main.asyncAfter(deadline: when) {
-            let indexPath = IndexPath(row: currentDay, section: currentMonth - 1)
+            let indexPath = IndexPath(row: currentDay , section: currentMonth - 1)
             self.tableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.middle, animated: true)
             self.tableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableViewScrollPosition.middle)
             self.tableView(self.tableView, didSelectRowAt: indexPath)
@@ -765,6 +767,31 @@ class HolidaysListViewController: UIViewController  , UITableViewDataSource , UI
     
     func nativeExpressAdViewDidReceiveAd(_ nativeExpressAdView: GADNativeExpressAdView) {
     LoadNextAd()
+    }
+}
+
+extension String {
+    
+    subscript (i: Int) -> Character {
+        return self[index(startIndex, offsetBy: i)]
+    }
+    
+    subscript (i: Int) -> String {
+        return String(self[i] as Character)
+    }
+    
+    subscript (r: Range<Int>) -> String {
+        let start = index(startIndex, offsetBy: r.lowerBound)
+        let end = index(startIndex, offsetBy: r.upperBound - r.lowerBound)
+        return self[Range(start ..< end)]
+    }
+}
+
+extension String {
+    func nsRange(from range: Range<Index>) -> NSRange {
+        let lower = UTF16View.Index(range.lowerBound, within: utf16)
+        let upper = UTF16View.Index(range.upperBound, within: utf16)
+        return NSRange(location: utf16.startIndex.distance(to: lower), length: lower.distance(to: upper))
     }
 }
 

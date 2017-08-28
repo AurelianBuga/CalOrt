@@ -29,8 +29,8 @@ class UsefulInfoTableViewController: UITableViewController {
         SetUsefulInfos()
         SetCategories()
         super.viewDidLoad()
-        
-        
+        //reset badge number
+        UIApplication.shared.applicationIconBadgeNumber = 0
     }
 
     override func didReceiveMemoryWarning() {

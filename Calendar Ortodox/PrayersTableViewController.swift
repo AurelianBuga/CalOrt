@@ -37,6 +37,8 @@ class PrayersTableViewController: UITableViewController , GADNativeExpressAdView
         
         AddNativeExpressAd()
         LoadNextAd()
+        //reset badge number
+        UIApplication.shared.applicationIconBadgeNumber = 0
     }
 
     override func didReceiveMemoryWarning() {

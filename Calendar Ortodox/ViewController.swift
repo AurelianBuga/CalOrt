@@ -61,6 +61,8 @@ class ViewController: UIViewController , GADBannerViewDelegate , PopupDelegate ,
         Banner.load(request)
         
         interstitialAd = CreateAndLoadInterstitialAd()
+        //reset badge number
+        UIApplication.shared.applicationIconBadgeNumber = 0
     }
     
     func CreateAndLoadInterstitialAd() -> GADInterstitial {
